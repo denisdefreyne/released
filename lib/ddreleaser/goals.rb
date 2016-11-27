@@ -3,6 +3,6 @@ module DDReleaser
   end
 end
 
-require_relative 'goals/build_ruby_gem'
-require_relative 'goals/push_ruby_gem'
+require_relative 'goals/gem_built'
+require_relative 'goals/gem_pushed'
 require_relative 'goals/shell'

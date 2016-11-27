@@ -13,9 +13,9 @@ pipeline_yaml['stages'].each do |stage_yaml|
       if step_yaml['shell']
         DDReleaser::Goals::Shell.new(command: step_yaml['shell'])
       elsif step_yaml['gem_build']
-        DDReleaser::Goals::BuildRubyGem.new(gemspec_file_path: step_yaml['gem_build'])
+        DDReleaser::Goals::GemBuilt.new(gemspec_file_path: step_yaml['gem_build'])
       elsif step_yaml['gem_push']
-        DDReleaser::Goals::PushRubyGem.new(
+        DDReleaser::Goals::GemPushed.new(
           gem_file_path: step_yaml['gem_push']['gem_file_path'],
           gem_name: step_yaml['gem_push']['gem_name'],
           authorization: step_yaml['gem_push']['authorization'],

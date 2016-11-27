@@ -1,4 +1,4 @@
-describe DDReleaser::Goals::PushRubyGem do
+describe DDReleaser::Goals::GemPushed do
   subject(:goal) do
     described_class.new(config)
   end

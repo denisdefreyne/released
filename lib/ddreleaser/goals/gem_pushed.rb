@@ -4,7 +4,7 @@ require 'json'
 
 module DDReleaser
   module Goals
-    class PushRubyGem < DDReleaser::Goal
+    class GemPushed < DDReleaser::Goal
       def initialize(config = {})
         @gem_name = config.fetch(:gem_name)
         @gem_file_path = config.fetch(:gem_file_path)

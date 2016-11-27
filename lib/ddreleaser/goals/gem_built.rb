@@ -6,7 +6,7 @@ require 'nanoc'
 
 module DDReleaser
   module Goals
-    class BuildRubyGem < DDReleaser::Goal
+    class GemBuilt < DDReleaser::Goal
       def initialize(config = {})
         @gemspec_file_path = config.fetch(:gemspec_file_path)
       end
