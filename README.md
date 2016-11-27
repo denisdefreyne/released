@@ -20,7 +20,7 @@ stages:
         authorization: n0p3z
 ```
 
-Example ouput:
+Example output:
 
 ```
 % bundle exec bin/ddreleaser ddreleaser.yaml
@@ -46,3 +46,13 @@ publish:
 
 Finished! :)
 ```
+
+## Concepts
+
+A goal can be
+
+* _assessed_, in order to figure out whether it is achievable. For example, assessing might include checking access credentials necessary for the goal to be achieved.
+
+* _achieved_, which means that all tasks necessary to complete the goal have been completed, and no further work is necessary.
+
+* _failed_, if the goal could not be achieved. This could be due to temporary failure (e.g. network problems when uploading an asset), or permanent failure (the asset is already published but is not the same as the one that is to be published).
