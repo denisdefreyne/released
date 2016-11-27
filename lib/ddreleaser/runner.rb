@@ -18,12 +18,12 @@ module DDReleaser
         puts "#{stage.name}:"
 
         stage.steps.each do |step|
-          plugin = step.plugin
-          next unless plugin.precheck?
+          goal = step.goal
+          next unless goal.precheck?
 
           print "  #{step.name}… "
 
-          res = plugin.precheck_safe
+          res = goal.precheck_safe
 
           if res.success?
             puts 'ok'
@@ -51,8 +51,8 @@ module DDReleaser
         stage.steps.each do |step|
           print "  #{step.name}… "
 
-          plugin = step.plugin
-          res = plugin.run
+          goal = step.goal
+          res = goal.run
 
           if res.success?
             puts 'ok'

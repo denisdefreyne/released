@@ -9,13 +9,13 @@ stages = []
 pipeline_yaml['stages'].each do |stage_yaml|
   steps = []
   stage_yaml['steps'].each do |step_yaml|
-    plugin =
+    goal =
       if step_yaml['shell']
-        DDReleaser::Plugins::Shell.new(command: step_yaml['shell'])
+        DDReleaser::Goals::Shell.new(command: step_yaml['shell'])
       elsif step_yaml['gem_build']
-        DDReleaser::Plugins::BuildRubyGem.new(gemspec_file_path: step_yaml['gem_build'])
+        DDReleaser::Goals::BuildRubyGem.new(gemspec_file_path: step_yaml['gem_build'])
       elsif step_yaml['gem_push']
-        DDReleaser::Plugins::PushRubyGem.new(
+        DDReleaser::Goals::PushRubyGem.new(
           gem_file_path: step_yaml['gem_push']['gem_file_path'],
           gem_name: step_yaml['gem_push']['gem_name'],
           authorization: step_yaml['gem_push']['authorization'],
@@ -24,7 +24,7 @@ pipeline_yaml['stages'].each do |stage_yaml|
         raise 'Unknown step'
       end
 
-    steps << DDReleaser::Step.new(step_yaml['name'], plugin)
+    steps << DDReleaser::Step.new(step_yaml['name'], goal)
   end
   stages << DDReleaser::Stage.new(stage_yaml['name'], steps)
 end

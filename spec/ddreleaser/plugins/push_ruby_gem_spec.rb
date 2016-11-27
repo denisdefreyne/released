@@ -1,5 +1,5 @@
-describe DDReleaser::Plugins::PushRubyGem do
-  subject(:plugin) do
+describe DDReleaser::Goals::PushRubyGem do
+  subject(:goal) do
     described_class.new(config)
   end
 
@@ -19,7 +19,7 @@ describe DDReleaser::Plugins::PushRubyGem do
   let(:rubygems_gems_response_body) { JSON.dump([{ name: 'nanoc' }]) }
 
   describe '#precheck' do
-    subject { plugin.precheck }
+    subject { goal.precheck }
 
     before do
       stub_request(:get, 'https://rubygems.org/api/v1/gems.json')

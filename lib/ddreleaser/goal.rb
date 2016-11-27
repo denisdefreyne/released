@@ -1,5 +1,5 @@
 module DDReleaser
-  class Plugin
+  class Goal
     # @abstract
     def initialize(_config = {})
       raise NotImplementedError

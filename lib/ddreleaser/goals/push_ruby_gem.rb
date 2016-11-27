@@ -3,8 +3,8 @@ require 'net/http'
 require 'json'
 
 module DDReleaser
-  module Plugins
-    class PushRubyGem < DDReleaser::Plugin
+  module Goals
+    class PushRubyGem < DDReleaser::Goal
       def initialize(config = {})
         @gem_name = config.fetch(:gem_name)
         @gem_file_path = config.fetch(:gem_file_path)

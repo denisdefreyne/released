@@ -1,29 +1,28 @@
 require 'uri'
 require 'net/http'
 require 'json'
+require 'shellwords'
 
 require 'nanoc'
 
 module DDReleaser
-  module Plugins
-    class BuildRubyGem < DDReleaser::Plugin
+  module Goals
+    class Shell < DDReleaser::Goal
       def initialize(config = {})
-        @gemspec_file_path = config.fetch(:gemspec_file_path)
+        @command = config.fetch(:command)
       end
 
       def inspect
-        "#{self.class.name}(gemspec_file_path = #{@gemspec_file_path})"
+        "#{self.class.name}(command = #{@command})"
       end
 
       def run
-        Dir['*.gem'].each { |f| FileUtils.rm_f(f) }
-
         stdout = ''
         stderr = ''
         piper = Nanoc::Extra::Piper.new(stdout: stdout, stderr: stderr)
 
         begin
-          piper.run(['gem', 'build', @gemspec_file_path], [])
+          piper.run(@command, [])
           DDReleaser::Success.new(self.class)
         rescue
           DDReleaser::Failure.new(self.class, "non-zero exit status (error = #{stderr})")

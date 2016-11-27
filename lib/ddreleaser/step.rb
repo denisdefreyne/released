@@ -1,11 +1,11 @@
 module DDReleaser
   class Step
     attr_reader :name
-    attr_reader :plugin
+    attr_reader :goal
 
-    def initialize(name, plugin)
+    def initialize(name, goal)
       @name = name
-      @plugin = plugin
+      @goal = goal
     end
   end
 end
