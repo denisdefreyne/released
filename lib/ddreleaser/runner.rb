@@ -50,7 +50,7 @@ module DDReleaser
         stage.goals.each do |goal|
           print "  #{goal}… "
 
-          res = goal.run
+          res = goal.achieve
 
           if res.success?
             puts 'ok'

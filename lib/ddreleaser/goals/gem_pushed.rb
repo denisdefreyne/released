@@ -45,7 +45,7 @@ module DDReleaser
         DDReleaser::Success.new(self.class)
       end
 
-      def run
+      def achieve
         # gem_name, gem_file, authorization
         # TODO
 

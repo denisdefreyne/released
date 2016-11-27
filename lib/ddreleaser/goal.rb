@@ -23,8 +23,7 @@ module DDReleaser
     end
 
     # @abstract
-    def run
-      # TODO: maybe rename to #achieve?
+    def achieve
       raise NotImplementedError
     end
   end
