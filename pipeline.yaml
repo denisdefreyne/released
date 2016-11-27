@@ -3,9 +3,8 @@ stages:
     - shell: bundle exec rake spec
     - shell: bundle exec rake rubocop
   package:
-    - gem_built: ddreleaser.gemspec
+    - gem_built: nanoc.gemspec
   publish:
     - gem_pushed:
-        gem_file_path: ddreleaser-*.gem
         gem_name: nanoc
-        authorization: n0p3z
+        authorization: 78f3014a224dfa0cb66a4d60f33f77eada6eb89f

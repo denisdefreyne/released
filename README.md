@@ -12,12 +12,11 @@ stages:
     - shell: bundle exec rake spec
     - shell: bundle exec rake rubocop
   package:
-    - gem_built: ddreleaser.gemspec
+    - gem_built: nanoc.gemspec
   publish:
     - gem_pushed:
-        gem_file_path: ddreleaser-*.gem
-        gem_name: ddreleaser
-        authorization: n0p3z
+        gem_name: nanoc
+        authorization: 78f3014a224dfa0cb66a4d60f33f77eada6eb89f
 ```
 
 Example output:
@@ -40,7 +39,7 @@ test:
   shell (bundle exec rake spec)… ok
   shell (bundle exec rake rubocop)… ok
 package:
-  gem built (ddreleaser.gemspec)… ok
+  gem built (nanoc.gemspec)… ok
 publish:
   gem pushed (nanoc)… ok
 
