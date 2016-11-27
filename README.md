@@ -9,19 +9,15 @@ Example pipeline:
 ```yaml
 stages:
   - name: test
-    steps:
-      - name: run specs
-        shell: bundle exec rake spec
-      - name: check style
-        shell: bundle exec rake rubocop
+    goals:
+      - shell: bundle exec rake spec
+      - shell: bundle exec rake rubocop
   - name: package
-    steps:
-      - name: build gem
-        gem_build: ddreleaser.gemspec
+    goals:
+      - gem_built: ddreleaser.gemspec
   - name: publish
-    steps:
-      - name: push gem
-        gem_push:
+    goals:
+      - gem_pushed:
           gem_file_path: ddreleaser-*.gem
           gem_name: ddreleaser
           authorization: n0p3z
@@ -31,22 +27,22 @@ Example ouput:
 
 ```
 % bundle exec bin/ddreleaser ddreleaser.yaml
-*** Running pre-checks…
+*** Verifying goal achievability…
 
 test:
 package:
 publish:
-  push gem… ok
+  gem pushed (nanoc)… ok
 
-*** Running…
+*** Achieving goals…
 
 test:
-  run specs… ok
-  check style… ok
+  shell (bundle exec rake spec)… ok
+  shell (bundle exec rake rubocop)… ok
 package:
-  build gem… ok
+  gem built (ddreleaser.gemspec)… ok
 publish:
-  push gem… ok
+  gem pushed (nanoc)… ok
 
 Finished! :)
 ```
