@@ -22,7 +22,7 @@ stages:
 Example output:
 
 ```
-% bundle exec bin/ddreleaser ddreleaser.yaml
+% bundle exec bin/ddreleaser nanoc.yaml
 ```
 
 ```
