@@ -15,12 +15,13 @@ module DDReleaser
       puts '*** Running pre-checks…'
       puts
       @stages.each do |stage|
-        puts "stage: #{stage.name}"
+        puts "#{stage.name}:"
 
-        stage.plugins.each do |plugin|
+        stage.steps.each do |step|
+          plugin = step.plugin
           next unless plugin.precheck?
 
-          print "  step: #{plugin.inspect}… "
+          print "  #{step.name}… "
 
           res = plugin.precheck_safe
 
@@ -45,11 +46,12 @@ module DDReleaser
       puts '*** Running…'
       puts
       @stages.each do |stage|
-        puts "stage: #{stage.name}"
+        puts "#{stage.name}:"
 
-        stage.plugins.each do |plugin|
-          print "  step: #{plugin.inspect}… "
+        stage.steps.each do |step|
+          print "  #{step.name}… "
 
+          plugin = step.plugin
           res = plugin.run
 
           if res.success?

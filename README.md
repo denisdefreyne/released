@@ -30,23 +30,23 @@ stages:
 Example ouput:
 
 ```
-% bundle exec bin/ddreleaser nanoc.yaml
+% bundle exec bin/ddreleaser ddreleaser.yaml
 *** Running pre-checks…
 
-stage: test
-stage: build
-stage: publish
-  step: DDReleaser::Plugins::PushRubyGem(gem_name = nanoc)… ok
+test:
+package:
+publish:
+  push gem… ok
 
 *** Running…
 
-stage: test
-  step: DDReleaser::Plugins::Shell(command = bundle exec rake spec)… ok
-  step: DDReleaser::Plugins::Shell(command = bundle exec rake rubocop)… ok
-stage: build
-  step: DDReleaser::Plugins::BuildRubyGem(gemspec_file_path = ddreleaser.gemspec)… ok
-stage: publish
-  step: DDReleaser::Plugins::PushRubyGem(gem_name = nanoc)… ok
+test:
+  run specs… ok
+  check style… ok
+package:
+  build gem… ok
+publish:
+  push gem… ok
 
 Finished! :)
 ```
