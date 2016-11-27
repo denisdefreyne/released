@@ -12,17 +12,17 @@ module DDReleaser
     private
 
     def assess_all
-      puts '*** Assessing goals…'
+      puts '*** assessing goals…'
       puts
       @stages.each do |stage|
         puts "#{stage.name}:"
 
         stage.goals.each do |goal|
-          next unless goal.asses?
+          next unless goal.assess?
 
           print "  #{goal}… "
 
-          res = goal.asses_safe
+          res = goal.assess_safe
 
           if res.success?
             puts 'ok'

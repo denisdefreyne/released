@@ -23,8 +23,7 @@ module DDReleaser
         "gem pushed (#{@gem_name})"
       end
 
-      # FIXME: I forgot the trailing S, ugh
-      def asses
+      def assess
         url = gems_get_uri
 
         req = Net::HTTP::Get.new(url)

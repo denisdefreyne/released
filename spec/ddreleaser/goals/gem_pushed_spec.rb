@@ -18,8 +18,8 @@ describe DDReleaser::Goals::GemPushed do
 
   let(:rubygems_gems_response_body) { JSON.dump([{ name: 'nanoc' }]) }
 
-  describe '#asses' do
-    subject { goal.asses }
+  describe '#assess' do
+    subject { goal.assess }
 
     before do
       stub_request(:get, 'https://rubygems.org/api/v1/gems.json')
