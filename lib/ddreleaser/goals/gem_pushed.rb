@@ -1,16 +1,22 @@
-require 'uri'
-require 'net/http'
-require 'json'
-
 module DDReleaser
   module Goals
     class GemPushed < DDReleaser::Goal
+      identifier :gem_pushed
+
       def initialize(config = {})
         @gem_name = config.fetch(:gem_name)
         @gem_file_path = config.fetch(:gem_file_path)
         @authorization = config.fetch(:authorization)
 
         @rubygems_base_url = config.fetch(:rubygems_base_url, 'https://rubygems.org')
+      end
+
+      def self.from_yaml(yaml)
+        new(
+          gem_file_path: yaml['gem_pushed']['gem_file_path'],
+          gem_name: yaml['gem_pushed']['gem_name'],
+          authorization: yaml['gem_pushed']['authorization'],
+        )
       end
 
       def inspect

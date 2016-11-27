@@ -1,15 +1,15 @@
-require 'uri'
-require 'net/http'
-require 'json'
-require 'shellwords'
-
-require 'nanoc'
-
 module DDReleaser
   module Goals
+    # TODO: rename
     class Shell < DDReleaser::Goal
+      identifier :shell
+
       def initialize(config = {})
         @command = config.fetch(:command)
+      end
+
+      def self.from_yaml(yaml)
+        new(command: yaml)
       end
 
       def inspect

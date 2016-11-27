@@ -8,11 +8,11 @@ stages:
   - name: package
     steps:
       - name: build gem
-        gem_build: ddreleaser.gemspec
+        gem_built: ddreleaser.gemspec
   - name: publish
     steps:
       - name: push gem
-        gem_push:
+        gem_pushed:
           gem_file_path: ddreleaser-*.gem
           gem_name: nanoc
           authorization: n0p3z

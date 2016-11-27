@@ -1,5 +1,12 @@
 module DDReleaser
   class Goal
+    extend DDPlugin::Plugin
+
+    # @abstract
+    def self.from_yaml(_yaml)
+      raise NotImplementedError
+    end
+
     # @abstract
     def initialize(_config = {})
       raise NotImplementedError
@@ -17,6 +24,7 @@ module DDReleaser
 
     # @abstract
     def run
+      # TODO: maybe rename to #achieve?
       raise NotImplementedError
     end
   end

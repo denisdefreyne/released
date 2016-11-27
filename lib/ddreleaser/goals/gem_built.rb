@@ -1,14 +1,14 @@
-require 'uri'
-require 'net/http'
-require 'json'
-
-require 'nanoc'
-
 module DDReleaser
   module Goals
     class GemBuilt < DDReleaser::Goal
+      identifier :gem_built
+
       def initialize(config = {})
         @gemspec_file_path = config.fetch(:gemspec_file_path)
+      end
+
+      def self.from_yaml(yaml)
+        new(gemspec_file_path: yaml['gem_built'])
       end
 
       def inspect

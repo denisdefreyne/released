@@ -8,21 +8,15 @@ pipeline_yaml = YAML.load_file(ARGV[0])
 stages = []
 pipeline_yaml['stages'].each do |stage_yaml|
   steps = []
+  # TODO: remove steps; only keep goals
   stage_yaml['steps'].each do |step_yaml|
-    goal =
-      if step_yaml['shell']
-        DDReleaser::Goals::Shell.new(command: step_yaml['shell'])
-      elsif step_yaml['gem_build']
-        DDReleaser::Goals::GemBuilt.new(gemspec_file_path: step_yaml['gem_build'])
-      elsif step_yaml['gem_push']
-        DDReleaser::Goals::GemPushed.new(
-          gem_file_path: step_yaml['gem_push']['gem_file_path'],
-          gem_name: step_yaml['gem_push']['gem_name'],
-          authorization: step_yaml['gem_push']['authorization'],
-        )
-      else
-        raise 'Unknown step'
-      end
+    name = (step_yaml.keys - ['name']).first
+    # TODO: what if there are more?
+    # FIXME: get rid of name
+
+    goal_class = DDReleaser::Goal.named(name.to_sym)
+    # TODO: handle errors
+    goal = goal_class.from_yaml(step_yaml)
 
     steps << DDReleaser::Step.new(step_yaml['name'], goal)
   end
