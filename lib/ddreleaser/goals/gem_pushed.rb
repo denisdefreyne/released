@@ -6,10 +6,7 @@ module DDReleaser
       RUBYGEMS_BASE_URL = 'http://0.0.0.0:9292'.freeze
 
       def initialize(config = {})
-        # FIXME: make only gem_name necessary
-
         @gem_name = config.fetch(:gem_name)
-        @gem_file_path = config.fetch(:gem_file_path)
         @authorization = config.fetch(:authorization)
 
         @rubygems_base_url = config.fetch(:rubygems_base_url, RUBYGEMS_BASE_URL)
@@ -17,7 +14,6 @@ module DDReleaser
 
       def self.from_yaml(yaml)
         new(
-          gem_file_path: yaml['gem_pushed']['gem_file_path'],
           gem_name: yaml['gem_pushed']['gem_name'],
           authorization: yaml['gem_pushed']['authorization'],
         )
