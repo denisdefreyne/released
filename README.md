@@ -4,8 +4,33 @@ An experiment in writing a release pipeline for Nanoc. It is a possible implemen
 
 ## Example
 
+Example pipeline:
+
+```yaml
+stages:
+  - name: test
+    steps:
+      - name: run specs
+        shell: bundle exec rake spec
+      - name: check style
+        shell: bundle exec rake rubocop
+  - name: package
+    steps:
+      - name: build gem
+        gem_build: ddreleaser.gemspec
+  - name: publish
+    steps:
+      - name: push gem
+        gem_push:
+          gem_file_path: ddreleaser-*.gem
+          gem_name: nanoc
+          authorization: n0p3z
 ```
-% bundle exec bin/release nanoc.yaml
+
+Example ouput:
+
+```
+% bundle exec bin/ddreleaser nanoc.yaml
 *** Running pre-checks…
 
 stage: test
