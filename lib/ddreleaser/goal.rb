@@ -12,14 +12,14 @@ module DDReleaser
       raise NotImplementedError
     end
 
-    def precheck_safe
-      precheck if precheck?
+    def asses_safe
+      asses if asses?
     rescue
       DDReleaser::Failure.new(self.class, 'unexpected error')
     end
 
-    def precheck?
-      respond_to?(:precheck)
+    def asses?
+      respond_to?(:asses)
     end
 
     # @abstract

@@ -5,24 +5,24 @@ module DDReleaser
     end
 
     def run
-      run_prechecks
-      run_actual
+      assess_all
+      achieve_all
     end
 
     private
 
-    def run_prechecks
-      puts '*** Verifying goal achievability…'
+    def assess_all
+      puts '*** Assessing goals…'
       puts
       @stages.each do |stage|
         puts "#{stage.name}:"
 
         stage.goals.each do |goal|
-          next unless goal.precheck?
+          next unless goal.asses?
 
           print "  #{goal}… "
 
-          res = goal.precheck_safe
+          res = goal.asses_safe
 
           if res.success?
             puts 'ok'
@@ -41,7 +41,7 @@ module DDReleaser
       puts
     end
 
-    def run_actual
+    def achieve_all
       puts '*** Achieving goals…'
       puts
       @stages.each do |stage|

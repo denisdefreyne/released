@@ -23,7 +23,7 @@ module DDReleaser
         "gem pushed (#{@gem_name})"
       end
 
-      def precheck
+      def asses
         uri = URI.parse(@rubygems_base_url + '/api/v1/gems.json')
 
         req = Net::HTTP::Get.new(uri)
