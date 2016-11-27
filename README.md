@@ -27,7 +27,7 @@ Example ouput:
 ```
 
 ```
-*** assessing goals…
+*** Assessing goals…
 
 test:
 package:

@@ -12,7 +12,7 @@ module DDReleaser
     private
 
     def assess_all
-      puts '*** assessing goals…'
+      puts '*** Assessing goals…'
       puts
       @stages.each do |stage|
         puts "#{stage.name}:"
