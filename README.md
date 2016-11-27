@@ -8,19 +8,16 @@ Example pipeline:
 
 ```yaml
 stages:
-  - name: test
-    goals:
-      - shell: bundle exec rake spec
-      - shell: bundle exec rake rubocop
-  - name: package
-    goals:
-      - gem_built: ddreleaser.gemspec
-  - name: publish
-    goals:
-      - gem_pushed:
-          gem_file_path: ddreleaser-*.gem
-          gem_name: ddreleaser
-          authorization: n0p3z
+  test:
+    - shell: bundle exec rake spec
+    - shell: bundle exec rake rubocop
+  package:
+    - gem_built: ddreleaser.gemspec
+  publish:
+    - gem_pushed:
+        gem_file_path: ddreleaser-*.gem
+        gem_name: ddreleaser
+        authorization: n0p3z
 ```
 
 Example ouput:
