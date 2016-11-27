@@ -7,20 +7,18 @@ pipeline_yaml = YAML.load_file(ARGV[0])
 
 stages = []
 pipeline_yaml['stages'].each do |stage_yaml|
-  steps = []
-  # TODO: remove steps; only keep goals
-  stage_yaml['steps'].each do |step_yaml|
-    name = (step_yaml.keys - ['name']).first
+  goals = []
+  stage_yaml['goals'].each do |goal_yaml|
+    name = goal_yaml.keys.first
     # TODO: what if there are more?
-    # FIXME: get rid of name
 
     goal_class = DDReleaser::Goal.named(name.to_sym)
-    # TODO: handle errors
-    goal = goal_class.from_yaml(step_yaml)
+    goal = goal_class.from_yaml(goal_yaml)
 
-    steps << DDReleaser::Step.new(step_yaml['name'], goal)
+    goals << goal
   end
-  stages << DDReleaser::Stage.new(stage_yaml['name'], steps)
+
+  stages << DDReleaser::Stage.new(stage_yaml['name'], goals)
 end
 
 DDReleaser::Runner.new(stages).run

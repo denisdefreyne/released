@@ -1,18 +1,14 @@
 stages:
   - name: test
-    steps:
-      - name: run specs
-        shell: bundle exec rake spec
-      - name: check style
-        shell: bundle exec rake rubocop
+    goals:
+      - shell: bundle exec rake spec
+      - shell: bundle exec rake rubocop
   - name: package
-    steps:
-      - name: build gem
-        gem_built: ddreleaser.gemspec
+    goals:
+      - gem_built: ddreleaser.gemspec
   - name: publish
-    steps:
-      - name: push gem
-        gem_pushed:
+    goals:
+      - gem_pushed:
           gem_file_path: ddreleaser-*.gem
           gem_name: nanoc
           authorization: n0p3z

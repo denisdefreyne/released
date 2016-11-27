@@ -1,11 +1,11 @@
 module DDReleaser
   class Stage
     attr_reader :name
-    attr_reader :steps
+    attr_reader :goals
 
-    def initialize(name, steps)
+    def initialize(name, goals)
       @name = name
-      @steps = steps
+      @goals = goals
     end
   end
 end
