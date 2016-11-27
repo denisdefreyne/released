@@ -22,11 +22,11 @@ describe DDReleaser::Goals::GemPushed do
     subject { goal.assess }
 
     before do
-      stub_request(:get, 'https://rubygems.org/api/v1/gems.json')
+      stub_request(:get, 'http://0.0.0.0:9292/api/v1/gems')
         .with(headers: { 'Authorization' => correct_authorization })
         .to_return(status: 200, body: rubygems_gems_response_body)
 
-      stub_request(:get, 'https://rubygems.org/api/v1/gems.json')
+      stub_request(:get, 'http://0.0.0.0:9292/api/v1/gems')
         .with(headers: { 'Authorization' => incorrect_authorization })
         .to_return(status: 401, body: 'unauthorized')
     end
