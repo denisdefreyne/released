@@ -3,7 +3,7 @@ require_relative 'lib/ddreleaser/version'
 Gem::Specification.new do |s|
   s.name        = 'ddreleaser'
   s.version     = DDReleaser::VERSION
-  s.homepage    = 'http://nanoc.ws/'
+  s.homepage    = 'https://github.com/ddfreyne/ddplugin'
   s.summary     = 'extensible release tool'
   s.description = ''
 
