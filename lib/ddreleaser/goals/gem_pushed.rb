@@ -4,6 +4,8 @@ module DDReleaser
       identifier :gem_pushed
 
       def initialize(config = {})
+        # FIXME: make only gem_name necessary
+
         @gem_name = config.fetch(:gem_name)
         @gem_file_path = config.fetch(:gem_file_path)
         @authorization = config.fetch(:authorization)
@@ -23,13 +25,14 @@ module DDReleaser
         "gem pushed (#{@gem_name})"
       end
 
+      # FIXME: I forgot the trailing S, ugh
       def asses
-        uri = URI.parse(@rubygems_base_url + '/api/v1/gems.json')
+        url = URI.parse(@rubygems_base_url + '/api/v1/gems.json')
 
-        req = Net::HTTP::Get.new(uri)
+        req = Net::HTTP::Get.new(url)
         req['Authorization'] = @authorization
 
-        res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') do |http|
+        res = Net::HTTP.start(url.hostname, url.port, use_ssl: url.scheme == 'https') do |http|
           http.request(req)
         end
 
@@ -46,10 +49,31 @@ module DDReleaser
       end
 
       def achieve
-        # gem_name, gem_file, authorization
-        # TODO
+        # FIXME: what if there are none?
+        # FIXME: what if there are multiple?
+        filename = Dir[@gem_name + '-*.gem'].first
 
-        DDReleaser::Success.new(self.class)
+        gem_size = File.size(filename)
+        File.open(filename, 'r') do |io|
+          url = URI.parse("http://0.0.0.0:9292/api/v1/gems?overwrite=true")
+
+          req = Net::HTTP::Post.new(url)
+          req['Authorization'] = @authorization
+          req['Content-Length'] = gem_size
+          req.body_stream = io
+
+          # FIXME: use actual base URL
+          res = Net::HTTP.start(url.hostname, url.port, use_ssl: url.scheme == 'https') do |http|
+            http.request(req)
+          end
+
+          case res
+          when Net::HTTPSuccess
+            DDReleaser::Success.new(self.class)
+          else
+            DDReleaser::Failure.new(self.class, res.body)
+          end
+        end
       end
     end
   end
