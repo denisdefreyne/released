@@ -9,11 +9,11 @@ module DDReleaser
       end
 
       def self.from_yaml(yaml)
-        new(command: yaml)
+        new(command: yaml['shell'])
       end
 
-      def inspect
-        "#{self.class.name}(command = #{@command})"
+      def to_s
+        "shell (#{@command})"
       end
 
       def run

@@ -21,7 +21,7 @@ module DDReleaser
           goal = step.goal
           next unless goal.precheck?
 
-          print "  #{step.name}… "
+          print "  verifying achievability: #{step.goal}… "
 
           res = goal.precheck_safe
 
@@ -49,7 +49,7 @@ module DDReleaser
         puts "#{stage.name}:"
 
         stage.steps.each do |step|
-          print "  #{step.name}… "
+          print "  achieving goal: #{step.goal}… "
 
           goal = step.goal
           res = goal.run

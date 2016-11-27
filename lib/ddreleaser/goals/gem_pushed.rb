@@ -19,8 +19,8 @@ module DDReleaser
         )
       end
 
-      def inspect
-        "#{self.class.name}(gem_name = #{@gem_name})"
+      def to_s
+        "gem pushed (#{@gem_name})"
       end
 
       def precheck

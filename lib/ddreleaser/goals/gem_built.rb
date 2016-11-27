@@ -11,8 +11,8 @@ module DDReleaser
         new(gemspec_file_path: yaml['gem_built'])
       end
 
-      def inspect
-        "#{self.class.name}(gemspec_file_path = #{@gemspec_file_path})"
+      def to_s
+        "gem built (#{@gemspec_file_path})"
       end
 
       def run
