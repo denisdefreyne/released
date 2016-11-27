@@ -3,6 +3,8 @@ module DDReleaser
     class GemPushed < DDReleaser::Goal
       identifier :gem_pushed
 
+      RUBYGEMS_BASE_URL = 'http://0.0.0.0:9292'.freeze
+
       def initialize(config = {})
         # FIXME: make only gem_name necessary
 
@@ -10,7 +12,7 @@ module DDReleaser
         @gem_file_path = config.fetch(:gem_file_path)
         @authorization = config.fetch(:authorization)
 
-        @rubygems_base_url = config.fetch(:rubygems_base_url, 'https://rubygems.org')
+        @rubygems_base_url = config.fetch(:rubygems_base_url, RUBYGEMS_BASE_URL)
       end
 
       def self.from_yaml(yaml)
@@ -27,7 +29,7 @@ module DDReleaser
 
       # FIXME: I forgot the trailing S, ugh
       def asses
-        url = URI.parse(@rubygems_base_url + '/api/v1/gems.json')
+        url = gems_get_uri
 
         req = Net::HTTP::Get.new(url)
         req['Authorization'] = @authorization
@@ -55,7 +57,7 @@ module DDReleaser
 
         gem_size = File.size(filename)
         File.open(filename, 'r') do |io|
-          url = URI.parse("http://0.0.0.0:9292/api/v1/gems?overwrite=true")
+          url = gems_push_uri
 
           req = Net::HTTP::Post.new(url)
           req['Authorization'] = @authorization
@@ -74,6 +76,16 @@ module DDReleaser
             DDReleaser::Failure.new(self.class, res.body)
           end
         end
+      end
+
+      private
+
+      def gems_get_uri
+        URI.parse(@rubygems_base_url + '/api/v1/gems')
+      end
+
+      def gems_push_uri
+        URI.parse(@rubygems_base_url + '/api/v1/gems?overwrite=true')
       end
     end
   end
