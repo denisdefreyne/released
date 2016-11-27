@@ -45,7 +45,7 @@ module DDReleaser
         DDReleaser::Success.new(self.class)
       end
 
-      def achieve
+      def try_achieve
         # FIXME: what if there are none?
         # FIXME: what if there are multiple?
         filename = Dir[@gem_name + '-*.gem'].first

@@ -16,7 +16,7 @@ module DDReleaser
         "shell (#{@command})"
       end
 
-      def achieve
+      def try_achieve
         stdout = ''
         stderr = ''
         piper = Nanoc::Extra::Piper.new(stdout: stdout, stderr: stderr)

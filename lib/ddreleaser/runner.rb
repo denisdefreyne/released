@@ -6,7 +6,7 @@ module DDReleaser
 
     def run
       assess_all
-      achieve_all
+      try_achieve_all
     end
 
     private
@@ -41,7 +41,7 @@ module DDReleaser
       puts
     end
 
-    def achieve_all
+    def try_achieve_all
       puts '*** Achieving goals…'
       puts
       @stages.each do |stage|
@@ -50,7 +50,7 @@ module DDReleaser
         stage.goals.each do |goal|
           print "  #{goal}… "
 
-          res = goal.achieve
+          res = goal.try_achieve
 
           if res.success?
             puts 'ok'

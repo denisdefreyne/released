@@ -23,7 +23,7 @@ module DDReleaser
     end
 
     # @abstract
-    def achieve
+    def try_achieve
       raise NotImplementedError
     end
   end

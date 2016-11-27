@@ -15,7 +15,7 @@ module DDReleaser
         "gem built (#{@gemspec_file_path})"
       end
 
-      def achieve
+      def try_achieve
         Dir['*.gem'].each { |f| FileUtils.rm_f(f) }
 
         stdout = ''
