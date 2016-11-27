@@ -23,7 +23,7 @@ stages:
       - name: push gem
         gem_push:
           gem_file_path: ddreleaser-*.gem
-          gem_name: nanoc
+          gem_name: ddreleaser
           authorization: n0p3z
 ```
 
