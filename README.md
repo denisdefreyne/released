@@ -24,7 +24,10 @@ Example ouput:
 
 ```
 % bundle exec bin/ddreleaser ddreleaser.yaml
-*** Verifying goal achievability…
+```
+
+```
+*** Assessing goals…
 
 test:
 package:
