@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+require 'ddreleaser'
+require 'yaml'
+
+pipeline_yaml = YAML.load_file(ARGV[0])
+
+stages = []
+pipeline_yaml['stages'].each do |stage_yaml|
+  steps = []
+  stage_yaml['steps'].each do |step_yaml|
+    if step_yaml['shell']
+      steps << DDReleaser::Plugins::Shell.new(command: step_yaml['shell'])
+    elsif step_yaml['gem_build']
+      steps << DDReleaser::Plugins::BuildRubyGem.new(gemspec_file_path: step_yaml['gem_build'])
+    elsif step_yaml['gem_push']
+      steps << DDReleaser::Plugins::PushRubyGem.new(
+        gem_file_path: step_yaml['gem_push']['gem_file_path'],
+        gem_name: step_yaml['gem_push']['gem_name'],
+        authorization: step_yaml['gem_push']['authorization'],
+      )
+    else
+      raise 'Unknown step'
+    end
+  end
+  stages << DDReleaser::Stage.new(stage_yaml['name'], steps)
+end
+
+DDReleaser::Runner.new(stages).run

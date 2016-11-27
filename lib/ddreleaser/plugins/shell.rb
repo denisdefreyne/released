@@ -13,7 +13,7 @@ module DDReleaser
       end
 
       def inspect
-        "#{self.class.name}(command = #{Shellwords.shelljoin @command})"
+        "#{self.class.name}(command = #{@command})"
       end
 
       def run
