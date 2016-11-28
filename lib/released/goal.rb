@@ -3,11 +3,6 @@ module Released
     extend DDPlugin::Plugin
 
     # @abstract
-    def self.from_yaml(_yaml)
-      raise NotImplementedError
-    end
-
-    # @abstract
     def initialize(_config = {})
       raise NotImplementedError
     end

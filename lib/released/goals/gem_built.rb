@@ -4,15 +4,8 @@ module Released
       identifier :gem_built
 
       def initialize(config = {})
-        @name = config.fetch(:name)
-        @version = config.fetch(:version)
-      end
-
-      def self.from_yaml(yaml)
-        new(
-          name: yaml['gem_built']['name'],
-          version: yaml['gem_built']['version'],
-        )
+        @name = config.fetch('name')
+        @version = config.fetch('version')
       end
 
       def to_s

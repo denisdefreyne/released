@@ -1,7 +1,9 @@
 stages:
   tested:
-    - shell: bundle exec rake spec
-    - shell: bundle exec rake rubocop
+    - shell:
+        command: bundle exec rake spec
+    - shell:
+        command: bundle exec rake rubocop
   packaged:
     - gem_built:
         name: released

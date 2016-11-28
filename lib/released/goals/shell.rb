@@ -5,11 +5,7 @@ module Released
       identifier :shell
 
       def initialize(config = {})
-        @command = config.fetch(:command)
-      end
-
-      def self.from_yaml(yaml)
-        new(command: yaml['shell'])
+        @command = config.fetch('command')
       end
 
       def to_s

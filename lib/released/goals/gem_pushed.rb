@@ -6,19 +6,11 @@ module Released
       RUBYGEMS_BASE_URL = 'http://0.0.0.0:9292'.freeze
 
       def initialize(config = {})
-        @name = config.fetch(:name)
-        @version = config.fetch(:version)
-        @authorization = config.fetch(:authorization)
+        @name = config.fetch('name')
+        @version = config.fetch('version')
+        @authorization = config.fetch('authorization')
 
-        @rubygems_base_url = config.fetch(:rubygems_base_url, RUBYGEMS_BASE_URL)
-      end
-
-      def self.from_yaml(yaml)
-        new(
-          name: yaml['gem_pushed']['name'],
-          version: yaml['gem_pushed']['version'],
-          authorization: yaml['gem_pushed']['authorization'],
-        )
+        @rubygems_base_url = config.fetch('rubygems_base_url', RUBYGEMS_BASE_URL)
       end
 
       def to_s

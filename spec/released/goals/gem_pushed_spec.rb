@@ -5,9 +5,9 @@ describe Released::Goals::GemPushed do
 
   let(:config) do
     {
-      gem_name: 'donkey',
-      gem_file_path: 'donkey.gem',
-      authorization: config_authorization,
+      'name' => 'donkey',
+      'version' => '0.1',
+      'authorization' => config_authorization,
     }
   end
 

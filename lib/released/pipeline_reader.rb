@@ -13,12 +13,10 @@ module Released
         goals = []
         stage_yaml.each do |goal_yaml|
           name = goal_yaml.keys.first
+          config = goal_yaml[name]
           # TODO: what if there are more?
 
-          goal_class = Released::Goal.named(name.to_sym)
-          goal = goal_class.from_yaml(goal_yaml)
-
-          goals << goal
+          goals << Released::Goal.named(name.to_sym).new(config)
         end
 
         stages << Released::Stage.new(stage_name, goals)
