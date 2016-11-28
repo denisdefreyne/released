@@ -103,3 +103,26 @@ Strings in `pipeline.yaml` will be replaced according the following rules:
 * Strings starting with `env!` will be replaced with the value of the environment variable whose name is everything after the exclamation mark. For example: `version: env!VERSION` will become `version: 0.1.2` if the `VERSION` environment variable is set to `0.1.2`.
 
 * Strings starting with `-----BEGIN PGP MESSAGE-----` will be replaced with their content passed through `gpg --decrypt`.
+
+## Defining custom goal types
+
+To define a custom goal type, subclass `Released::Goal` and give it an identifier:
+
+```ruby
+class TweetSent < Released::Goal
+  identifier :tweet_sent
+
+  # …
+```
+
+Define the following methods:
+
+* `initialize(config)` — Initialize the goal with the given configuration. The configuration is a hash whose keys are strings (not symbols).
+
+* `try_achieve` — Perform any steps necessary to achieve the goal.
+
+* `achieved?` — Return `true` if the goal has been achieved, `false` otherwise. This method should not mutate state. Return `Released::Success` or `Released::Failure`.
+
+* `failure_reason` — Return a string containing the reason why the goal was not achieved. This method should not mutate state.
+
+NOTE: `Released::Success` and `Released::Failure` will likely go away.
