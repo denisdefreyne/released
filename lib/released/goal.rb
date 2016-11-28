@@ -14,8 +14,11 @@ module Released
 
     def assess_safe
       assess if assess?
-    rescue
-      Released::Failure.new(self.class, 'unexpected error')
+    rescue => e
+      Released::Failure.new(
+        self.class,
+        "unexpected error:\n\n#{e.message}\n\n#{e.backtrace.join("\n")}",
+      )
     end
 
     def assess?

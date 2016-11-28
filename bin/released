@@ -3,22 +3,10 @@
 require 'released'
 require 'yaml'
 
-pipeline_yaml = YAML.load_file(ARGV[0])
-
-stages = []
-pipeline_yaml['stages'].each_pair do |stage_name, stage_yaml|
-  goals = []
-  stage_yaml.each do |goal_yaml|
-    name = goal_yaml.keys.first
-    # TODO: what if there are more?
-
-    goal_class = Released::Goal.named(name.to_sym)
-    goal = goal_class.from_yaml(goal_yaml)
-
-    goals << goal
-  end
-
-  stages << Released::Stage.new(stage_name, goals)
+if ARGV.size != 1
+  $stderr.puts "usage: #{$0} [filename]"
+  exit 1
 end
 
+stages = Released::PipelineReader.new(ARGV[0]).read
 Released::Runner.new(stages).run
