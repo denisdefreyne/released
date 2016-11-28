@@ -1,7 +1,7 @@
 stages:
-  # tested:
-  #   - shell: bundle exec rake spec
-  #   - shell: bundle exec rake rubocop
+  tested:
+    - shell: bundle exec rake spec
+    - shell: bundle exec rake rubocop
   packaged:
     - gem_built:
         name: released
@@ -13,18 +13,18 @@ stages:
           -----BEGIN PGP MESSAGE-----
           Comment: GPGTools - http://gpgtools.org
 
-          hQIMA2z0x64EwZScAQ/9GzdYZmVcxT8JlJMQCilPK4+mvipw88RHTG2csOJPcy0i
-          kUjqujt6wGn9mtBU12dH5myETVIgiqgTTgjL65kpktnqYS6hZXLRy8lLT+Tch6V9
-          WRUO5AKSPuH5A35aZoeVZOqKKLtzLAO3NbfDMmkodmHOcWJF1f4at8JC3sQxq+z4
-          diwAdzN3c4/MB6v3AK0PkgKNA7AUwT6Z3y8v9mUo3vscQ3afIx91N75lzcq6aPsq
-          rfX/O5tUquc7qV2drw5PHhnXyzeQWHCUSjgNG4FxGzNVRtCWDYXOGCTkyIzW9eBO
-          YbDOpLbkDBQwsPISbZY/DThBWsnPlTk1ihqEfQpYUL5pN2qh9aIaPeyRJpq20Cpd
-          /HwmIGUBxAsQhs2jWHVBY9uUmI9RCM8Aj2NxHlW7T1wiXi11xcPV4IPya8xrT910
-          a4RpeeA2C5/OJmn/HNGnAdLbB3pA1tWkFI93JFRrb8L0Gs0UycKdmq0TrH4xoVEH
-          G9YJfq44mhmOW9LZ96x2eG9+4Kdqh7Y4b/GLEBgDGOwela6kpHUYLDXm91hqrhPy
-          fDR7+wb/oIQd6adh6Qqn5ovl1D54Hdqo0/xHzdLtbDLGC7JylMZuSUJKwylwH11A
-          /N9UlfAD3Jf2x+qxXJDhNZofknws5mey2vOjxMEnd7nxETIVCrt8d9UPRqoK84LS
-          QQEB1c6C1zZEmEEMFiisy8TEL4CUA9YmQ3Ly39Z7uZuolYjoYTZz1SZoS1eaG34y
-          wCuyl+WiQEizUedj032dSQtO
-          =OSFq
+          hQIMA2z0x64EwZScAQ/7BCl8FAhEs1s0MctkE/2qH5xP0BQLKxi2NmDBCzTUsro4
+          35tzbc17DARPv6mi77hlPcJePpCZFghTAwHIDSiz4DqkLnFYLz6Qo7Zq84/ps9En
+          8Qh3eg/pB1SFCz4hxRq/ZoqO0d7LORzLW4re0JIbaknvzZXwAqy3Gz9RrkJAWLhu
+          B1GA/R/f5m5btMTPey376bQLtp5CDAbOGJskupUtZ+7CCm38cCjb3qmGfFsYHB4d
+          SiQHHgKIkaE16eWogMUOJH0qN1MNH+7VCa4qjUEI/D4azao5Z5eG4D/cdR0lfsCb
+          gOBWB7rQlhH6UEA9XFvDwVmYZJVy/gutKIyqoF+JNPtOi7QvdY+hecKgEeheaNQ2
+          zUryQxIVVPW8TlnPJvSuhvM9rYNYbm3rU6pHw7OgpocWLhhuPjswmV2ove4GQL0c
+          /3kZCZp4X2AFUzxCtb7dk/0lgZGWvxbRBneLdmmCVwcMzUY0aGfc9SlJa8ttOxIK
+          YWfarlo3jV8+XA9GBG9uLE+XuWKmkdU8HXs6rIL830A1R8wuNldpzl7HvTRW+eTk
+          Wv2pGzRpJucmwq+9nxWuCz/9AaInFi7fHzFXydyr9/SHkt1bySma7XGjcuqjwX8Q
+          HkfTxK0qPfuVjbwZCOdqX+rAFrBtM3Xz7T+QHBAxxepcnYLHT9wnsX/+zjOxXFbS
+          XAFDquuFvKbcjpByDVjHLtiAlXz+i5rKU0AHaZ3lQ2b/RQz8X0I6m+Cm2gGVeylU
+          xJtFEd+jHpAG7K+1gosgBJfre2P19n2L0gSBKK9OuyEQrnXvizppVwEAunzl
+          =gXgF
           -----END PGP MESSAGE-----
