@@ -1,9 +1,9 @@
-require_relative 'lib/ddreleaser/version'
+require_relative 'lib/released/version'
 
 Gem::Specification.new do |s|
-  s.name        = 'ddreleaser'
-  s.version     = DDReleaser::VERSION
-  s.homepage    = 'https://github.com/ddfreyne/ddplugin'
+  s.name        = 'released'
+  s.version     = Released::VERSION
+  s.homepage    = 'https://github.com/ddfreyne/released'
   s.summary     = 'extensible release tool'
   s.description = ''
 

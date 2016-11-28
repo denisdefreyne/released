@@ -1,6 +1,6 @@
-module DDReleaser
+module Released
   module Goals
-    class GemPushed < DDReleaser::Goal
+    class GemPushed < Released::Goal
       identifier :gem_pushed
 
       RUBYGEMS_BASE_URL = 'http://0.0.0.0:9292'.freeze
@@ -34,15 +34,15 @@ module DDReleaser
         end
 
         unless res.is_a?(Net::HTTPSuccess)
-          return DDReleaser::Failure.new(self.class, 'authorization failed')
+          return Released::Failure.new(self.class, 'authorization failed')
         end
 
         body = JSON.parse(res.body)
         unless body.any? { |e| e['name'] == @gem_name }
-          return DDReleaser::Failure.new(self.class, 'list of owned gems does not include request gem')
+          return Released::Failure.new(self.class, 'list of owned gems does not include request gem')
         end
 
-        DDReleaser::Success.new(self.class)
+        Released::Success.new(self.class)
       end
 
       def try_achieve
@@ -66,9 +66,9 @@ module DDReleaser
 
           case res
           when Net::HTTPSuccess
-            DDReleaser::Success.new(self.class)
+            Released::Success.new(self.class)
           else
-            DDReleaser::Failure.new(self.class, res.body)
+            Released::Failure.new(self.class, res.body)
           end
         end
       end

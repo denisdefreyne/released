@@ -1,4 +1,4 @@
-module DDReleaser
+module Released
   class Result
     attr_reader :klass
 

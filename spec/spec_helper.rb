@@ -1,4 +1,4 @@
-require 'ddreleaser'
+require 'released'
 
 require 'webmock/rspec'
 require 'rspec/its'

@@ -1,4 +1,4 @@
-module DDReleaser
+module Released
   module Goals
   end
 end

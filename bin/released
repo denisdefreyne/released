@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'ddreleaser'
+require 'released'
 require 'yaml'
 
 pipeline_yaml = YAML.load_file(ARGV[0])
@@ -12,13 +12,13 @@ pipeline_yaml['stages'].each_pair do |stage_name, stage_yaml|
     name = goal_yaml.keys.first
     # TODO: what if there are more?
 
-    goal_class = DDReleaser::Goal.named(name.to_sym)
+    goal_class = Released::Goal.named(name.to_sym)
     goal = goal_class.from_yaml(goal_yaml)
 
     goals << goal
   end
 
-  stages << DDReleaser::Stage.new(stage_name, goals)
+  stages << Released::Stage.new(stage_name, goals)
 end
 
-DDReleaser::Runner.new(stages).run
+Released::Runner.new(stages).run

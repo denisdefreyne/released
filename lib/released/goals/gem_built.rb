@@ -1,6 +1,6 @@
-module DDReleaser
+module Released
   module Goals
-    class GemBuilt < DDReleaser::Goal
+    class GemBuilt < Released::Goal
       identifier :gem_built
 
       def initialize(config = {})
@@ -24,9 +24,9 @@ module DDReleaser
 
         begin
           piper.run(['gem', 'build', @gemspec_file_path], [])
-          DDReleaser::Success.new(self.class)
+          Released::Success.new(self.class)
         rescue
-          DDReleaser::Failure.new(self.class, "non-zero exit status (error = #{stderr})")
+          Released::Failure.new(self.class, "non-zero exit status (error = #{stderr})")
         end
       end
     end

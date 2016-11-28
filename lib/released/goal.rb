@@ -1,4 +1,4 @@
-module DDReleaser
+module Released
   class Goal
     extend DDPlugin::Plugin
 
@@ -15,7 +15,7 @@ module DDReleaser
     def assess_safe
       assess if assess?
     rescue
-      DDReleaser::Failure.new(self.class, 'unexpected error')
+      Released::Failure.new(self.class, 'unexpected error')
     end
 
     def assess?

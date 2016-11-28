@@ -1,6 +1,6 @@
-# DDReleaser
+# Released
 
-An experiment in writing a release pipeline for Nanoc. It is a possible implementation of [Nanoc RFC 8](https://github.com/nanoc/rfcs/pull/8).
+Released is an experimental release pipeline tool. It is a possible implementation of [Nanoc RFC 8](https://github.com/nanoc/rfcs/pull/8).
 
 ## Example
 
@@ -22,7 +22,7 @@ stages:
 Example output:
 
 ```
-% bundle exec bin/ddreleaser nanoc.yaml
+% bundle exec bin/released nanoc.yaml
 ```
 
 ```
@@ -48,7 +48,7 @@ Finished! :)
 
 ## Concepts
 
-DDReleaser has the following concepts:
+_Released_ has the following concepts:
 
 * pipeline
 * stage
@@ -68,9 +68,9 @@ A goal expresses an individual desired end state. For example:
 
 Goals are described in a passive voice (e.g. `gem_built`; “the gem has been built”) rather than in the imperative mood (e.g. `build_gem`; “build the gem”). This approach allows expressing what the end state is, rather than how to achieve it. This way, the release process is idempotent: re-running the release process when it has already succeeded before will leave everything as-is, as all goals have already been achieved.
 
-When attempting to achieve a goal, DDReleaser will first _assess_ the goal in order to determine whether the goal can realistically be obtained given the current circumstances. For example, when the goal is to have a Debian package published, the assessment would fail if no working credentials are available.
+When attempting to achieve a goal, _Released_ will first _assess_ the goal in order to determine whether the goal can realistically be obtained given the current circumstances. For example, when the goal is to have a Debian package published, the assessment would fail if no working credentials are available.
 
-DDReleaser will take the necessary steps to achieve a given goal, but no more than that. If a goal is already achieved, no steps will be taken. It is therefore quite acceptable try to achieve a goal multiple times.
+_Released_ will take the necessary steps to achieve a given goal, but no more than that. If a goal is already achieved, no steps will be taken. It is therefore quite acceptable try to achieve a goal multiple times.
 
 TODO: figure out difference between temporary/retriable failures (GitHub is down) and permanent/non-retriable ones (tests are failing)
 

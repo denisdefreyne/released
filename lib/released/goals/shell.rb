@@ -1,7 +1,7 @@
-module DDReleaser
+module Released
   module Goals
     # TODO: rename
-    class Shell < DDReleaser::Goal
+    class Shell < Released::Goal
       identifier :shell
 
       def initialize(config = {})
@@ -23,9 +23,9 @@ module DDReleaser
 
         begin
           piper.run(@command, [])
-          DDReleaser::Success.new(self.class)
+          Released::Success.new(self.class)
         rescue
-          DDReleaser::Failure.new(self.class, "non-zero exit status (error = #{stderr})")
+          Released::Failure.new(self.class, "non-zero exit status (error = #{stderr})")
         end
       end
     end

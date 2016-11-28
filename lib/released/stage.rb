@@ -1,4 +1,4 @@
-module DDReleaser
+module Released
   class Stage
     attr_reader :name
     attr_reader :goals

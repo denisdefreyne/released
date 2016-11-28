@@ -1,4 +1,4 @@
-describe DDReleaser::Goals::GemPushed do
+describe Released::Goals::GemPushed do
   subject(:goal) do
     described_class.new(config)
   end
@@ -34,7 +34,7 @@ describe DDReleaser::Goals::GemPushed do
     context 'incorrect authorization' do
       let(:config_authorization) { incorrect_authorization }
 
-      it { is_expected.to be_a(DDReleaser::Failure) }
+      it { is_expected.to be_a(Released::Failure) }
       its(:reason) { is_expected.to eql('authorization failed') }
     end
 
@@ -44,14 +44,14 @@ describe DDReleaser::Goals::GemPushed do
       context 'response does not include requested gem' do
         let(:rubygems_gems_response_body) { JSON.dump([{ name: 'giraffe' }]) }
 
-        it { is_expected.to be_a(DDReleaser::Failure) }
+        it { is_expected.to be_a(Released::Failure) }
         its(:reason) { is_expected.to eql('list of owned gems does not include request gem') }
       end
 
       context 'response includes requested gem' do
         let(:rubygems_gems_response_body) { JSON.dump([{ name: 'donkey' }]) }
 
-        it { is_expected.to be_a(DDReleaser::Success) }
+        it { is_expected.to be_a(Released::Success) }
       end
     end
   end

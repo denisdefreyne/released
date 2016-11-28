@@ -1,4 +1,4 @@
-module DDReleaser
+module Released
   class Runner
     def initialize(stages)
       @stages = stages
