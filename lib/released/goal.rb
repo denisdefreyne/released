@@ -13,7 +13,7 @@ module Released
     end
 
     def assess_safe
-      assess if assess?
+      assess if assessable?
     rescue => e
       Released::Failure.new(
         self.class,
@@ -21,7 +21,7 @@ module Released
       )
     end
 
-    def assess?
+    def assessable?
       respond_to?(:assess)
     end
 

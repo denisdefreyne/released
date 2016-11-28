@@ -18,7 +18,7 @@ module Released
         puts "#{stage.name}:"
 
         stage.goals.each do |goal|
-          next unless goal.assess?
+          next unless goal.assessable?
 
           print "  #{goal}… "
 
