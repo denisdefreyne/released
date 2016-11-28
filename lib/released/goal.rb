@@ -34,5 +34,10 @@ module Released
     def achieved?
       raise NotImplementedError
     end
+
+    # @abstract
+    def failure_reason
+      raise NotImplementedError
+    end
   end
 end

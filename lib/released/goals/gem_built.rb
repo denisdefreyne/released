@@ -36,8 +36,17 @@ module Released
       end
 
       def achieved?
-        expected_name = @name + '-' + @version + '.gem'
         Dir['*.gem'].include?(expected_name)
+      end
+
+      def failure_reason
+        "Expected the file #{expected_name} to have been created"
+      end
+
+      private
+
+      def expected_name
+        @_expected_name ||= @name + '-' + @version + '.gem'
       end
     end
   end

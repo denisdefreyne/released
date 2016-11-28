@@ -73,6 +73,7 @@ module Released
           end
 
           puts 'failed'
+          puts "    reason: #{goal.failure_reason}"
           exit 1 # FIXME: eww
         end
       end
