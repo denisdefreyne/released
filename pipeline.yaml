@@ -1,4 +1,8 @@
 stages:
+  random:
+    - file_exists:
+        filename: lol.txt
+        contents: hello
   tested:
     - shell:
         command: bundle exec rake spec

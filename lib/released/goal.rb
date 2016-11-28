@@ -7,6 +7,10 @@ module Released
       raise NotImplementedError
     end
 
+    def to_s
+      self.class.identifier.to_s
+    end
+
     def assess_safe
       assess if assessable?
     rescue => e
