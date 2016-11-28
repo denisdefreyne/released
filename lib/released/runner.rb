@@ -51,7 +51,7 @@ module Released
           print "  #{goal}… "
 
           if goal.achieved?
-            puts format_success('ok (already achieved)')
+            puts format_success_old('ok (already achieved)')
             next
           end
 
@@ -68,7 +68,7 @@ module Released
           end
 
           if goal.achieved?
-            puts format_success('ok (newly achieved)')
+            puts format_success_new('ok (newly achieved)')
             next
           end
 
@@ -82,11 +82,12 @@ module Released
       puts 'Finished! :)'
     end
 
-    ORANGE = "\e[38;5;208m"
-    RED    = "\e[38;5;196m"
-    GREEN  = "\e[38;5;40m"
-    BLUE  = "\e[38;5;27m"
-    RESET  = "\e[0m"
+    ORANGE       = "\e[38;5;208m"
+    RED          = "\e[38;5;196m"
+    DARK_GREEN   = "\e[38;5;28m"
+    BRIGHT_GREEN = "\e[38;5;40m"
+    BLUE         = "\e[38;5;27m"
+    RESET        = "\e[0m"
 
     def format_header(s)
       s
@@ -96,8 +97,12 @@ module Released
       BLUE + s + RESET
     end
 
-    def format_success(s)
-      GREEN + s + RESET
+    def format_success_old(s)
+      DARK_GREEN + s + RESET
+    end
+
+    def format_success_new(s)
+      BRIGHT_GREEN + s + RESET
     end
 
     def format_failure(s)
