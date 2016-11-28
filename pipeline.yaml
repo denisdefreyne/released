@@ -5,8 +5,26 @@ stages:
   packaged:
     - gem_built:
         name: released
-        version: env!version
+        version: env!VERSION
   published:
     - gem_pushed:
         gem_name: released
-        authorization: 78f3014a224dfa0cb66a4d60f33f77eada6eb89f
+        authorization: |
+          -----BEGIN PGP MESSAGE-----
+          Comment: GPGTools - http://gpgtools.org
+
+          hQIMA2z0x64EwZScAQ/9GzdYZmVcxT8JlJMQCilPK4+mvipw88RHTG2csOJPcy0i
+          kUjqujt6wGn9mtBU12dH5myETVIgiqgTTgjL65kpktnqYS6hZXLRy8lLT+Tch6V9
+          WRUO5AKSPuH5A35aZoeVZOqKKLtzLAO3NbfDMmkodmHOcWJF1f4at8JC3sQxq+z4
+          diwAdzN3c4/MB6v3AK0PkgKNA7AUwT6Z3y8v9mUo3vscQ3afIx91N75lzcq6aPsq
+          rfX/O5tUquc7qV2drw5PHhnXyzeQWHCUSjgNG4FxGzNVRtCWDYXOGCTkyIzW9eBO
+          YbDOpLbkDBQwsPISbZY/DThBWsnPlTk1ihqEfQpYUL5pN2qh9aIaPeyRJpq20Cpd
+          /HwmIGUBxAsQhs2jWHVBY9uUmI9RCM8Aj2NxHlW7T1wiXi11xcPV4IPya8xrT910
+          a4RpeeA2C5/OJmn/HNGnAdLbB3pA1tWkFI93JFRrb8L0Gs0UycKdmq0TrH4xoVEH
+          G9YJfq44mhmOW9LZ96x2eG9+4Kdqh7Y4b/GLEBgDGOwela6kpHUYLDXm91hqrhPy
+          fDR7+wb/oIQd6adh6Qqn5ovl1D54Hdqo0/xHzdLtbDLGC7JylMZuSUJKwylwH11A
+          /N9UlfAD3Jf2x+qxXJDhNZofknws5mey2vOjxMEnd7nxETIVCrt8d9UPRqoK84LS
+          QQEB1c6C1zZEmEEMFiisy8TEL4CUA9YmQ3Ly39Z7uZuolYjoYTZz1SZoS1eaG34y
+          wCuyl+WiQEizUedj032dSQtO
+          =OSFq
+          -----END PGP MESSAGE-----

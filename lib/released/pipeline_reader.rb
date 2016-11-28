@@ -62,9 +62,21 @@ module Released
       case string
       when /\Aenv!(.*)/
         ENV.fetch($1)
+      when /\A-----BEGIN PGP MESSAGE-----/
+        decrypt(string)
       else
         string
       end
+    end
+
+    def decrypt(string)
+      stdout = ''
+      stderr = ''
+
+      piper = Nanoc::Extra::Piper.new(stdout: stdout, stderr: stderr)
+      piper.run(['gpg', '--decrypt'], string)
+
+      stdout
     end
   end
 end

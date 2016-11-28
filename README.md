@@ -101,3 +101,5 @@ A pipeline is a sequence of stages. Each stage will be executed in sequence, and
 Strings in `pipeline.yaml` will be replaced according the following rules:
 
 * Strings starting with `env!` will be replaced with the value of the environment variable whose name is everything after the exclamation mark. For example: `version: env!VERSION` will become `version: 0.1.2` if the `VERSION` environment variable is set to `0.1.2`.
+
+* Strings starting with `-----BEGIN PGP MESSAGE-----` will be replaced with their content passed through `gpg --decrypt`.
