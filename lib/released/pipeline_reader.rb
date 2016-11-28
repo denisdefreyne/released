@@ -5,7 +5,7 @@ module Released
     end
 
     def read
-      yaml = YAML.load_file(@filename)
+      yaml = transform_yaml(YAML.load_file(@filename))
 
       stages = []
 
@@ -25,6 +25,46 @@ module Released
       end
 
       stages
+    end
+
+    def transform_yaml(yaml)
+      transform_obj(Hamster.from(yaml))
+    end
+
+    private
+
+    def transform_obj(obj)
+      case obj
+      when Hamster::Hash
+        transform_hash(obj)
+      when Hamster::Vector
+        transform_vector(obj)
+      when String
+        transform_string(obj)
+      else
+        obj
+      end
+    end
+
+    def transform_hash(hash)
+      hash.map do |key, value|
+        [key, transform_obj(value)]
+      end
+    end
+
+    def transform_vector(vector)
+      vector.map do |elem|
+        transform_obj(elem)
+      end
+    end
+
+    def transform_string(string)
+      case string
+      when /\Aenv!(.*)/
+        ENV.fetch($1)
+      else
+        string
+      end
     end
   end
 end

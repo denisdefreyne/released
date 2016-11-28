@@ -74,7 +74,7 @@ _Released_ will take the necessary steps to achieve a given goal, but no more th
 
 TODO: figure out difference between temporary/retriable failures (GitHub is down) and permanent/non-retriable ones (tests are failing)
 
-## Stage
+### Stage
 
 A stage consists of one or more goals. A stage is completed when each of the individual goals inside that stage are achieved.
 
@@ -92,6 +92,12 @@ For example:
 
 The goals inside a stage can be executed in parallel or in any order.
 
-## Pipeline
+### Pipeline
 
 A pipeline is a sequence of stages. Each stage will be executed in sequence, and a stage will only be executed if no goals in the previous stage have failed.
+
+## Pipeline file
+
+Strings in `pipeline.yaml` will be replaced according the following rules:
+
+* Strings starting with `env!` will be replaced with the value of the environment variable whose name is everything after the exclamation mark. For example: `version: env!VERSION` will become `version: 0.1.2` if the `VERSION` environment variable is set to `0.1.2`.
