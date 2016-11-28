@@ -6,7 +6,8 @@ module Released
       RUBYGEMS_BASE_URL = 'http://0.0.0.0:9292'.freeze
 
       def initialize(config = {})
-        @gem_name = config.fetch(:gem_name)
+        @name = config.fetch(:name)
+        @version = config.fetch(:version)
         @authorization = config.fetch(:authorization)
 
         @rubygems_base_url = config.fetch(:rubygems_base_url, RUBYGEMS_BASE_URL)
@@ -14,31 +15,26 @@ module Released
 
       def self.from_yaml(yaml)
         new(
-          gem_name: yaml['gem_pushed']['gem_name'],
+          name: yaml['gem_pushed']['name'],
+          version: yaml['gem_pushed']['version'],
           authorization: yaml['gem_pushed']['authorization'],
         )
       end
 
       def to_s
-        "gem pushed (#{@gem_name})"
+        "gem pushed (#{@name})"
       end
 
       def assess
-        url = gems_get_uri
+        # FIXME: verify that authorization does not end with a newline
 
-        req = Net::HTTP::Get.new(url)
-        req['Authorization'] = @authorization
-
-        res = Net::HTTP.start(url.hostname, url.port, use_ssl: url.scheme == 'https') do |http|
-          http.request(req)
-        end
-
-        unless res.is_a?(Net::HTTPSuccess)
+        res = names_and_versions_of_owned_gems
+        unless res
           return Released::Failure.new(self.class, 'authorization failed')
         end
 
-        body = JSON.parse(res.body)
-        unless body.any? { |e| e['name'] == @gem_name }
+        names = res.map { |e| e[:name] }
+        unless names.include?(@name)
           return Released::Failure.new(self.class, 'list of owned gems does not include request gem')
         end
 
@@ -48,7 +44,7 @@ module Released
       def try_achieve
         # FIXME: what if there are none?
         # FIXME: what if there are multiple?
-        filename = Dir[@gem_name + '-*.gem'].first
+        filename = Dir[@name + '-*.gem'].first
 
         gem_size = File.size(filename)
         File.open(filename, 'r') do |io|
@@ -74,11 +70,31 @@ module Released
       end
 
       def achieved?
-        # FIXME
-        true
+        expected = { name: @name, version: @version }
+        names_and_versions_of_owned_gems.include?(expected)
+      end
+
+      def failure_reason
+        "expected list of gems to contain “#{@name}”, version #{@version}"
       end
 
       private
+
+      def names_and_versions_of_owned_gems
+        url = gems_get_uri
+
+        req = Net::HTTP::Get.new(url)
+        req['Authorization'] = @authorization
+
+        res = Net::HTTP.start(url.hostname, url.port, use_ssl: url.scheme == 'https') do |http|
+          http.request(req)
+        end
+
+        if res.is_a?(Net::HTTPSuccess)
+          body = JSON.parse(res.body)
+          body.map { |e| { name: e['name'], version: e['version'] } }
+        end
+      end
 
       def gems_get_uri
         URI.parse(@rubygems_base_url + '/api/v1/gems')

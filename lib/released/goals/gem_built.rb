@@ -40,7 +40,7 @@ module Released
       end
 
       def failure_reason
-        "Expected the file #{expected_name} to have been created"
+        "expected the file #{expected_name} to exist"
       end
 
       private

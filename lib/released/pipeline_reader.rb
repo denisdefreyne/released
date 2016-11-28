@@ -33,6 +33,7 @@ module Released
 
     private
 
+    # FIXME: Hamster::Hash is not ordered!!!
     def transform_obj(obj)
       case obj
       when Hamster::Hash
