@@ -8,12 +8,12 @@ Example pipeline:
 
 ```yaml
 stages:
-  test:
+  tested:
     - shell: bundle exec rake spec
     - shell: bundle exec rake rubocop
-  package:
+  packaged:
     - gem_built: nanoc.gemspec
-  publish:
+  published:
     - gem_pushed:
         gem_name: nanoc
         authorization: 78f3014a224dfa0cb66a4d60f33f77eada6eb89f
@@ -28,19 +28,19 @@ Example output:
 ```
 *** Assessing goals…
 
-test:
-package:
-publish:
+tested:
+packaged:
+published:
   gem pushed (nanoc)… ok
 
 *** Achieving goals…
 
-test:
+tested:
   shell (bundle exec rake spec)… ok
   shell (bundle exec rake rubocop)… ok
-package:
+packaged:
   gem built (nanoc.gemspec)… ok
-publish:
+published:
   gem pushed (nanoc)… ok
 
 Finished! :)
