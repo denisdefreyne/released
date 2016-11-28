@@ -28,18 +28,17 @@ module Released
     end
 
     def transform_yaml(yaml)
-      transform_obj(Hamster.from(yaml))
+      transform_obj(yaml)
     end
 
     private
 
-    # FIXME: Hamster::Hash is not ordered!!!
     def transform_obj(obj)
       case obj
-      when Hamster::Hash
+      when Hash
         transform_hash(obj)
-      when Hamster::Vector
-        transform_vector(obj)
+      when Array
+        transform_array(obj)
       when String
         transform_string(obj)
       else
@@ -48,13 +47,13 @@ module Released
     end
 
     def transform_hash(hash)
-      hash.map do |key, value|
-        [key, transform_obj(value)]
+      hash.each_with_object({}) do |(key, value), memo|
+        memo[key] = transform_obj(value)
       end
     end
 
-    def transform_vector(vector)
-      vector.map do |elem|
+    def transform_array(array)
+      array.map do |elem|
         transform_obj(elem)
       end
     end
