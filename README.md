@@ -109,10 +109,33 @@ Strings in `pipeline.yaml` will be replaced according the following rules:
 To define a custom goal type, subclass `Released::Goal` and give it an identifier:
 
 ```ruby
-class TweetSent < Released::Goal
-  identifier :tweet_sent
+class FileExists < Released::Goal
+  identifier :file_exists
 
-  # …
+  def initialize(config)
+    @filename = config.fetch('filename')
+    @contents = config.fetch('contents')
+  end
+
+  def try_achieve
+    File.write(@filename, @contents)
+    Released::Success.new(self.class)
+  end
+
+  def achieved?
+    File.file?(@filename) && File.read(@filename) == @contents
+  end
+
+  def failure_reason
+    if !File.file?(@filename)
+      "file `#{@filename}` does not exist"
+    elsif File.read(@filename) != @contents
+      "file `#{@filename}` does not have the expected contents"
+    else
+      "unknown reason"
+    end
+  end
+end
 ```
 
 Define the following methods:
