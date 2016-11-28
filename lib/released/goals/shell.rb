@@ -28,6 +28,11 @@ module Released
           Released::Failure.new(self.class, "non-zero exit status (error = #{stderr})")
         end
       end
+
+      def achieved?
+        # FIXME
+        true
+      end
     end
   end
 end

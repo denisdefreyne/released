@@ -29,5 +29,10 @@ module Released
     def try_achieve
       raise NotImplementedError
     end
+
+    # @abstract
+    def achieved?
+      raise NotImplementedError
+    end
   end
 end

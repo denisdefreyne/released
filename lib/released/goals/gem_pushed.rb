@@ -73,6 +73,11 @@ module Released
         end
       end
 
+      def achieved?
+        # FIXME
+        true
+      end
+
       private
 
       def gems_get_uri

@@ -50,11 +50,13 @@ module Released
         stage.goals.each do |goal|
           print "  #{goal}… "
 
-          res = goal.try_achieve
+          if goal.achieved?
+            puts 'ok (already achieved)'
+            next
+          end
 
-          if res.success?
-            puts 'ok'
-          else
+          res = goal.try_achieve
+          if res.failure?
             puts 'error'
             puts
             puts 'FAILURE!'
@@ -62,8 +64,16 @@ module Released
             puts res.reason
             puts '-----'
             puts 'Aborting!'
-            exit 1
+            exit 1 # FIXME: eww
           end
+
+          if goal.achieved?
+            puts 'ok (newly achieved)'
+            next
+          end
+
+          puts 'failed'
+          exit 1 # FIXME: eww
         end
       end
       puts

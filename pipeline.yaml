@@ -1,10 +1,12 @@
 stages:
-  tested:
-    - shell: bundle exec rake spec
-    - shell: bundle exec rake rubocop
+  # tested:
+  #   - shell: bundle exec rake spec
+  #   - shell: bundle exec rake rubocop
   packaged:
-    - gem_built: nanoc.gemspec
+    - gem_built:
+        name: released
+        version: 0.0.1
   published:
     - gem_pushed:
-        gem_name: nanoc
+        gem_name: released
         authorization: 78f3014a224dfa0cb66a4d60f33f77eada6eb89f
