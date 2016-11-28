@@ -75,7 +75,7 @@ module Released
       stderr = ''
 
       piper = Nanoc::Extra::Piper.new(stdout: stdout, stderr: stderr)
-      piper.run(['gpg', '--decrypt'], string)
+      piper.run(['gpg', '--decrypt', '--no-tty'], string)
 
       stdout
     end
