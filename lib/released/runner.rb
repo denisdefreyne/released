@@ -1,7 +1,8 @@
 module Released
   class Runner
-    def initialize(stages)
+    def initialize(stages, ui: Released::RunnerUI.new)
       @stages = stages
+      @ui = ui
     end
 
     def run
@@ -12,113 +13,61 @@ module Released
     private
 
     def assess_all
-      puts '*** Assessing goals…'
-      puts
+      @ui.assessing_started
       @stages.each do |stage|
-        puts "#{format_stage stage.name}:"
-
+        @ui.assessing_stage_started(stage)
         stage.goals.each do |goal|
           next unless goal.assessable?
 
-          print "  #{goal}… "
+          @ui.assessing_goal_started(goal)
 
           begin
             goal.assess
           rescue => e
-            puts 'error'
-            puts
-            puts 'FAILURE!'
-            puts '-----'
-            puts e.message
-            puts
-            puts e.backtrace.join("\n")
-            puts '-----'
-            puts 'Aborting!'
-            exit 1
+            @ui.errored(e)
+            exit 1 # FIXME: eww
           end
 
-          puts 'ok'
+          @ui.assessing_goal_ended(goal)
         end
+        @ui.assessing_stage_ended(stage)
       end
-      puts
+      @ui.assessing_ended
     end
 
     def try_achieve_all
-      puts '*** Achieving goals…'
-      puts
+      @ui.achieving_started
       @stages.each do |stage|
-        puts "#{format_stage stage.name}:"
+        @ui.achieving_stage_started(stage)
 
         stage.goals.each do |goal|
-          print "  #{goal}… "
+          @ui.achieving_goal_started(goal)
 
           if goal.achieved?
-            puts format_success_old('ok (already achieved)')
+            @ui.achieving_goal_ended_already_achieved(goal)
             next
           end
 
           begin
             goal.try_achieve
           rescue => e
-            puts format_error('error')
-            puts
-            puts 'FAILURE!'
-            puts '-----'
-            puts e.message
-            puts
-            puts e.backtrace.join("\n")
-            puts '-----'
-            puts 'Aborting!'
+            @ui.errored(e)
             exit 1 # FIXME: eww
           end
 
           if !goal.effectful?
-            puts format_success_new('ok')
+            @ui.achieving_goal_ended_not_effectful(goal)
             next
           elsif goal.achieved?
-            puts format_success_new('ok (newly achieved)')
+            @ui.achieving_goal_ended_achieved(goal)
             next
+          else
+            @ui.achieving_goal_ended_not_achieved(goal)
+            exit 1 # FIXME: eww
           end
-
-          puts format_failure('failed')
-          puts "    reason: #{goal.failure_reason}"
-          exit 1 # FIXME: eww
         end
       end
-      puts
-
-      puts 'Finished! :)'
-    end
-
-    ORANGE       = "\e[38;5;208m"
-    RED          = "\e[38;5;196m"
-    DARK_GREEN   = "\e[38;5;28m"
-    BRIGHT_GREEN = "\e[38;5;40m"
-    BLUE         = "\e[38;5;27m"
-    RESET        = "\e[0m"
-
-    def format_header(s)
-      s
-    end
-
-    def format_stage(s)
-      BLUE + s + RESET
-    end
-
-    def format_success_old(s)
-      DARK_GREEN + s + RESET
-    end
-
-    def format_success_new(s)
-      BRIGHT_GREEN + s + RESET
-    end
-
-    def format_failure(s)
-      ORANGE + s + RESET
-    end
-
-    def format_error(s)
-      RED + s + RESET
+      @ui.achieving_ended
     end
   end
 end
