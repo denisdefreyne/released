@@ -182,4 +182,4 @@ Define the following methods:
 
 You might want to implement the following methods as well:
 
-* `effectful?` — Return `true` if achieving the goal is effectful, i.e. is expected to cause a state change, `false` otherwise. For example, a `gem_built` goal is effectful, while a `test_passed` goal is not.
+* `effectful?` — Return `true` if achieving the goal is effectful, i.e. is expected to cause a state change, `false` otherwise. For example, a `gem_built` goal is effectful, while a `test_passed` goal is not. The default is `true`.
