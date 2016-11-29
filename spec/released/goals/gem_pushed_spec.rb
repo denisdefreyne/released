@@ -34,8 +34,10 @@ describe Released::Goals::GemPushed do
     context 'incorrect authorization' do
       let(:config_authorization) { incorrect_authorization }
 
-      it { is_expected.to be_a(Released::Failure) }
-      its(:reason) { is_expected.to eql('authorization failed') }
+      it 'raises' do
+        expect { subject }.to raise_error(
+          RuntimeError, 'Authorization failed')
+      end
     end
 
     context 'correct authorization' do
@@ -44,14 +46,18 @@ describe Released::Goals::GemPushed do
       context 'response does not include requested gem' do
         let(:rubygems_gems_response_body) { JSON.dump([{ name: 'giraffe' }]) }
 
-        it { is_expected.to be_a(Released::Failure) }
-        its(:reason) { is_expected.to eql('list of owned gems does not include request gem') }
+        it 'raises' do
+          expect { subject }.to raise_error(
+            RuntimeError, 'List of owned gems does not include request gem')
+        end
       end
 
       context 'response includes requested gem' do
         let(:rubygems_gems_response_body) { JSON.dump([{ name: 'donkey' }]) }
 
-        it { is_expected.to be_a(Released::Success) }
+        it 'raises' do
+          expect { subject }.not_to raise_error
+        end
       end
     end
   end

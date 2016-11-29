@@ -10,7 +10,6 @@ module Released
 
       def try_achieve
         File.write(@filename, @contents)
-        Released::Success.new(self.class)
       end
 
       def achieved?

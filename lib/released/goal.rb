@@ -11,15 +11,6 @@ module Released
       self.class.identifier.to_s
     end
 
-    def assess_safe
-      assess if assessable?
-    rescue => e
-      Released::Failure.new(
-        self.class,
-        "unexpected error:\n\n#{e.message}\n\n#{e.backtrace.join("\n")}",
-      )
-    end
-
     def assessable?
       respond_to?(:assess)
     end

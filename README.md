@@ -144,8 +144,6 @@ Define the following methods:
 
 * `try_achieve` — Perform any steps necessary to achieve the goal.
 
-* `achieved?` — Return `true` if the goal has been achieved, `false` otherwise. This method should not mutate state. Return `Released::Success` or `Released::Failure`.
+* `achieved?` — Return `true` if the goal has been achieved, `false` otherwise. This method should not mutate state.
 
 * `failure_reason` — Return a string containing the reason why the goal was not achieved. This method should not mutate state.
-
-NOTE: `Released::Success` and `Released::Failure` will likely go away.

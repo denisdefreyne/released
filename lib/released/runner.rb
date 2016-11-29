@@ -22,20 +22,20 @@ module Released
 
           print "  #{goal}… "
 
-          res = goal.assess_safe
-
-          if res.success?
-            puts 'ok'
-          else
+          begin
+            goal.assess
+          rescue => e
             puts 'error'
             puts
             puts 'FAILURE!'
             puts '-----'
-            puts res.reason
+            puts e.message
             puts '-----'
             puts 'Aborting!'
             exit 1
           end
+
+          puts 'ok'
         end
       end
       puts
@@ -55,13 +55,14 @@ module Released
             next
           end
 
-          res = goal.try_achieve
-          if res.failure?
+          begin
+            goal.try_achieve
+          rescue => e
             puts format_error('error')
             puts
             puts 'FAILURE!'
             puts '-----'
-            puts res.reason
+            puts e.message
             puts '-----'
             puts 'Aborting!'
             exit 1 # FIXME: eww

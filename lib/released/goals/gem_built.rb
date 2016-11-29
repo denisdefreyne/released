@@ -22,9 +22,8 @@ module Released
         begin
           gemspec_file_path = "#{@name}.gemspec"
           piper.run(['gem', 'build', gemspec_file_path], [])
-          Released::Success.new(self.class)
-        rescue
-          Released::Failure.new(self.class, "non-zero exit status (error = #{stderr})")
+        rescue => e
+          raise "Failed to build gem: #{stderr}"
         end
       end
 

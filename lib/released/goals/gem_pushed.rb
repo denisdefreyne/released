@@ -22,15 +22,13 @@ module Released
 
         res = names_and_versions_of_owned_gems
         unless res
-          return Released::Failure.new(self.class, 'authorization failed')
+          raise 'Authorization failed'
         end
 
         names = res.map { |e| e[:name] }
         unless names.include?(@name)
-          return Released::Failure.new(self.class, 'list of owned gems does not include request gem')
+          raise 'List of owned gems does not include request gem'
         end
-
-        Released::Success.new(self.class)
       end
 
       def try_achieve
@@ -52,11 +50,8 @@ module Released
             http.request(req)
           end
 
-          case res
-          when Net::HTTPSuccess
-            Released::Success.new(self.class)
-          else
-            Released::Failure.new(self.class, res.body)
+          if res != Net::HTTPSuccess
+            raise "Failed to push gem: #{res.body}"
           end
         end
       end

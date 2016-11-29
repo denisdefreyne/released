@@ -19,9 +19,8 @@ module Released
 
         begin
           piper.run(@command, [])
-          Released::Success.new(self.class)
-        rescue
-          Released::Failure.new(self.class, "non-zero exit status (error = #{stderr})")
+        rescue => e
+          raise "Failed execute command: #{stderr}"
         end
       end
 
