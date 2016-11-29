@@ -16,6 +16,11 @@ module Released
     end
 
     # @abstract
+    def effectful?
+      true
+    end
+
+    # @abstract
     def try_achieve
       raise NotImplementedError
     end

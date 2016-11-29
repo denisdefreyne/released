@@ -12,6 +12,10 @@ module Released
         "shell (#{@command})"
       end
 
+      def effectful?
+        false
+      end
+
       def try_achieve
         stdout = ''
         stderr = ''
@@ -25,8 +29,7 @@ module Released
       end
 
       def achieved?
-        # FIXME
-        true
+        false
       end
     end
   end

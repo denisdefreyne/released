@@ -68,7 +68,10 @@ module Released
             exit 1 # FIXME: eww
           end
 
-          if goal.achieved?
+          if !goal.effectful?
+            puts format_success_new('ok')
+            next
+          elsif goal.achieved?
             puts format_success_new('ok (newly achieved)')
             next
           end
