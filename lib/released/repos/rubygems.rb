@@ -11,10 +11,7 @@ module Released
         end
       end
 
-      # FIXME: use actual base URL
-      BASE_URL = 'http://0.0.0.0:9292'.freeze
-
-      def initialize(base_url: BASE_URL, authorization:)
+      def initialize(base_url:, authorization:)
         @base_url = base_url
         @authorization = authorization
       end
@@ -55,7 +52,7 @@ module Released
             http.request(req)
           end
 
-          if res != Net::HTTPSuccess
+          unless res.is_a?(Net::HTTPOK)
             raise "Failed to push gem: #{res.body}"
           end
         end

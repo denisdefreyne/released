@@ -3,12 +3,16 @@ module Released
     class GemPushed < Released::Goal
       identifier :gem_pushed
 
+      # FIXME: use actual base URL
+      BASE_URL = 'http://0.0.0.0:9292'.freeze
+
       def initialize(config = {})
         @name = config.fetch('name')
         @version = config.fetch('version')
 
         @rubygems_repo = Released::Repos::RubyGems.new(
           authorization: config.fetch('authorization'),
+          base_url: config.fetch('rubygems_base_url', BASE_URL),
         )
       end
 
