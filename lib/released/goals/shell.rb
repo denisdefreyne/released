@@ -23,7 +23,7 @@ module Released
 
         begin
           piper.run(@command, [])
-        rescue => e
+        rescue
           raise "Failed execute command!\n\nstderr:\n#{stderr}\n\nstdout:\n#{stdout}"
         end
       end

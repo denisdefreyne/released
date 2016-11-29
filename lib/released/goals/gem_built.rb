@@ -22,7 +22,7 @@ module Released
         begin
           gemspec_file_path = "#{@name}.gemspec"
           piper.run(['gem', 'build', gemspec_file_path], [])
-        rescue => e
+        rescue
           raise "Failed to build gem: #{stderr}"
         end
       end
