@@ -21,6 +21,8 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 2.3.0'
 
+  s.add_runtime_dependency('netrc') # TODO: move to plugin
+  s.add_runtime_dependency('octokit') # TODO: move to plugin
   s.add_runtime_dependency('ddplugin', '~> 1.0')
   s.add_runtime_dependency('nanoc', '~> 4.4') # for piper
   s.add_development_dependency('bundler', '>= 1.7.10', '< 2.0')
