@@ -30,6 +30,8 @@ module Released
             puts 'FAILURE!'
             puts '-----'
             puts e.message
+            puts
+            puts e.backtrace.join("\n")
             puts '-----'
             puts 'Aborting!'
             exit 1
@@ -63,6 +65,8 @@ module Released
             puts 'FAILURE!'
             puts '-----'
             puts e.message
+            puts
+            puts e.backtrace.join("\n")
             puts '-----'
             puts 'Aborting!'
             exit 1 # FIXME: eww

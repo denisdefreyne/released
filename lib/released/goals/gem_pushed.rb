@@ -11,6 +11,11 @@ module Released
         @authorization = config.fetch('authorization')
 
         @rubygems_base_url = config.fetch('rubygems_base_url', RUBYGEMS_BASE_URL)
+
+        @rubygems_repo = Released::Repos::RubyGems.new(
+          base_url: @rubygems_base_url,
+          authorization: @authorization,
+        )
       end
 
       def to_s
@@ -18,15 +23,7 @@ module Released
       end
 
       def assess
-        # FIXME: verify that authorization does not end with a newline
-
-        res = names_and_versions_of_owned_gems
-        unless res
-          raise 'Authorization failed'
-        end
-
-        names = res.map { |e| e[:name] }
-        unless names.include?(@name)
+        unless @rubygems_repo.owned_gems.map(&:name).include?(@name)
           raise 'List of owned gems does not include request gem'
         end
       end
@@ -57,8 +54,7 @@ module Released
       end
 
       def achieved?
-        expected = { name: @name, version: @version }
-        names_and_versions_of_owned_gems.include?(expected)
+        @rubygems_repo.owned_gems.include? { |g| g.name == @name && g.version == @version }
       end
 
       def failure_reason
@@ -66,26 +62,6 @@ module Released
       end
 
       private
-
-      def names_and_versions_of_owned_gems
-        url = gems_get_uri
-
-        req = Net::HTTP::Get.new(url)
-        req['Authorization'] = @authorization
-
-        res = Net::HTTP.start(url.hostname, url.port, use_ssl: url.scheme == 'https') do |http|
-          http.request(req)
-        end
-
-        if res.is_a?(Net::HTTPSuccess)
-          body = JSON.parse(res.body)
-          body.map { |e| { name: e['name'], version: e['version'] } }
-        end
-      end
-
-      def gems_get_uri
-        URI.parse(@rubygems_base_url + '/api/v1/gems')
-      end
 
       def gems_push_uri
         URI.parse(@rubygems_base_url + '/api/v1/gems?overwrite=true')
