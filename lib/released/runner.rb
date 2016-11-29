@@ -59,7 +59,7 @@ module Released
             @ui.achieving_goal_ended_not_effectful(goal)
             next
           elsif goal.achieved?
-            @ui.achieving_goal_ended_achieved(goal)
+            @ui.achieving_goal_ended_newly_achieved(goal)
             next
           else
             @ui.achieving_goal_ended_not_achieved(goal)
