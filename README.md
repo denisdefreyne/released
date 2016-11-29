@@ -46,6 +46,16 @@ published:
 Finished! :)
 ```
 
+## Philosophy
+
+_Released_’s philosophy is threefold:
+
+* **idempotent**: The tool should be able to be run multiple times for the same version, and steps that have already executed should not cause additional effects. For example, if publishing the gem succeeds, but pushing to GitHub fails, the tool should be able to be run again and pushing to GitHub should succeed without failing on the gem push step.
+
+* **safe**: If an erroneous condition arises, and continuing could lead to a broken release, the tool should abort. For example, if any of the pre-release verifications fail, the release should not continue.
+
+* **resilient**: If a release cannot be made properly due to a dependent service being unavailable, the tool should be able to retry the step, or skip it if the step is deemed to be optional.
+
 ## Concepts
 
 _Released_ has the following concepts:
