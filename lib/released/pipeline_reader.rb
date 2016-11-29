@@ -5,7 +5,7 @@ module Released
     end
 
     def read
-      yaml = transform_yaml(YAML.load_file(@filename))
+      yaml = transform(YAML.load_file(@filename))
 
       stages = []
 
@@ -25,13 +25,9 @@ module Released
       stages
     end
 
-    def transform_yaml(yaml)
-      transform_obj(yaml)
-    end
-
     private
 
-    def transform_obj(obj)
+    def transform(obj)
       case obj
       when Hash
         transform_hash(obj)
@@ -46,13 +42,13 @@ module Released
 
     def transform_hash(hash)
       hash.each_with_object({}) do |(key, value), memo|
-        memo[key] = transform_obj(value)
+        memo[key] = transform(value)
       end
     end
 
     def transform_array(array)
       array.map do |elem|
-        transform_obj(elem)
+        transform(elem)
       end
     end
 
