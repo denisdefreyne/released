@@ -31,6 +31,11 @@ describe Released::PipelineReader do
         it { is_expected.to eql('denis') }
       end
 
+      context 'sh! string' do
+        let(:obj) { 'sh!echo -n hello' }
+        it { is_expected.to eql('hello') }
+      end
+
       context 'encrypted string' do
         # TODO
       end

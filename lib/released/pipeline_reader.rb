@@ -56,6 +56,8 @@ module Released
       case string
       when /\Aenv!(.*)/
         ENV.fetch(Regexp.last_match(1))
+      when /\Ash!(.*)/
+        `#{Regexp.last_match(1)}`
       when /\A-----BEGIN PGP MESSAGE-----/
         decrypt(string)
       else
