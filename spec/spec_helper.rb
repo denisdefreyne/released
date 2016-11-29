@@ -16,4 +16,12 @@ RSpec.configure do |c|
     $stdout = orig_stdout
     $stderr = orig_stderr
   end
+
+  c.around(:each) do |example|
+    Dir.mktmpdir('released-specs') do |dir|
+      FileUtils.cd(dir) do
+        example.run
+      end
+    end
+  end
 end

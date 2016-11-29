@@ -1,7 +1,7 @@
 # ----- CONFIGURED -----
 
 AllCops:
-  TargetRubyVersion: 2.1
+  TargetRubyVersion: 2.3
 
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: comma
@@ -9,6 +9,14 @@ Style/TrailingCommaInArguments:
 Style/TrailingCommaInLiteral:
   EnforcedStyleForMultiline: comma
 
+
+
+# ----- DISABLED (for now) -----
+
+# I’ll enable these at some point.
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
 
 
 

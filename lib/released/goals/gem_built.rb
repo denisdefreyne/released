@@ -13,6 +13,7 @@ module Released
       end
 
       def try_achieve
+        # TODO: remove
         Dir['*.gem'].each { |f| FileUtils.rm_f(f) }
 
         stdout = ''
@@ -28,7 +29,7 @@ module Released
       end
 
       def achieved?
-        Dir['*.gem'].include?(expected_name)
+        File.file?(expected_name)
       end
 
       def failure_reason
