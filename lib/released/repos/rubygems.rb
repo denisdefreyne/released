@@ -11,6 +11,7 @@ module Released
         end
       end
 
+      # FIXME: use actual base URL
       BASE_URL = 'http://0.0.0.0:9292'.freeze
 
       def initialize(base_url: BASE_URL, authorization:)
@@ -40,10 +41,34 @@ module Released
         end
       end
 
+      def push_gem(filename)
+        gem_size = File.size(filename)
+        File.open(filename, 'r') do |io|
+          url = gems_push_uri
+
+          req = Net::HTTP::Post.new(url)
+          req['Authorization'] = @authorization
+          req['Content-Length'] = gem_size
+          req.body_stream = io
+
+          res = Net::HTTP.start(url.hostname, url.port, use_ssl: url.scheme == 'https') do |http|
+            http.request(req)
+          end
+
+          if res != Net::HTTPSuccess
+            raise "Failed to push gem: #{res.body}"
+          end
+        end
+      end
+
       private
 
       def gems_get_uri
         URI.parse(@base_url + '/api/v1/gems')
+      end
+
+      def gems_push_uri
+        URI.parse(@base_url + '/api/v1/gems?overwrite=true')
       end
     end
   end
