@@ -35,3 +35,8 @@ stages:
           4kQZyb0WGIdRH5Rs3KFQ2UaNl+feNi18QFz6vLKamUGuX58OwkvX5TzvnFQ=
           =RMIv
           -----END PGP MESSAGE-----
+    - github_release_exists:
+        repository_name: ddfreyne/sandbox
+        tag: 0.0.1
+        release_notes: |
+          Initial release.

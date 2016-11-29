@@ -3,10 +3,14 @@
 require 'released'
 require 'yaml'
 
-if ARGV.size != 1
-  $stderr.puts "usage: #{$PROGRAM_NAME} [filename]"
+opts, args = ARGV.partition { |a| a.start_with?('-') }
+
+if args.size != 1
+  $stderr.puts "usage: #{$PROGRAM_NAME} [options] filename"
   exit 1
 end
 
-stages = Released::PipelineReader.new(ARGV[0]).read
-Released::Runner.new(stages).run
+dry_run = opts.include?('--dry-run')
+
+stages = Released::PipelineReader.new(args[0]).read
+Released::Runner.new(stages, dry_run: dry_run).run

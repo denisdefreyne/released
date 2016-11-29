@@ -1,7 +1,8 @@
 module Released
   class Runner
-    def initialize(stages, ui: Released::RunnerUI.new)
+    def initialize(stages, dry_run: false, ui: Released::RunnerUI.new)
       @stages = stages
+      @dry_run = dry_run
       @ui = ui
     end
 
@@ -42,6 +43,15 @@ module Released
 
         stage.goals.each do |goal|
           @ui.achieving_goal_started(goal)
+
+          if @dry_run
+            if goal.achieved?
+              @ui.achieving_goal_ended_already_achieved(goal)
+            else
+              @ui.achieving_goal_ended_pending(goal)
+            end
+            next
+          end
 
           if goal.achieved?
             @ui.achieving_goal_ended_already_achieved(goal)

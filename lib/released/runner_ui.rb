@@ -49,6 +49,10 @@ module Released
       puts format_success_new('ok')
     end
 
+    def achieving_goal_ended_pending(goal)
+      puts format_pending('pending')
+    end
+
     def achieving_goal_ended_not_achieved(goal)
       puts format_failure('failed')
       puts "    reason: #{goal.failure_reason}"
@@ -81,6 +85,7 @@ module Released
     DARK_GREEN   = "\e[38;5;28m".freeze
     BRIGHT_GREEN = "\e[38;5;40m".freeze
     BLUE         = "\e[38;5;27m".freeze
+    YELLOW       = "\e[38;5;220m".freeze
     RESET        = "\e[0m".freeze
 
     def format_stage(s)
@@ -97,6 +102,10 @@ module Released
 
     def format_failure(s)
       ORANGE + s + RESET
+    end
+
+    def format_pending(s)
+      YELLOW + s + RESET
     end
 
     def format_error(s)
