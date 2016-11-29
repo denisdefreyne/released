@@ -179,3 +179,7 @@ Define the following methods:
 * `achieved?` — Return `true` if the goal has been achieved, `false` otherwise. This method should not mutate state.
 
 * `failure_reason` — Return a string containing the reason why the goal was not achieved. This method should not mutate state.
+
+You might want to implement the following methods as well:
+
+* `effectful?` — Return `true` if achieving the goal is effectful, i.e. is expected to cause a state change, `false` otherwise. For example, a `gem_built` goal is effectful, while a `test_passed` goal is not.
