@@ -9,20 +9,43 @@ Example pipeline:
 ```yaml
 stages:
   tested:
-    - shell: bundle exec rake spec
-    - shell: bundle exec rake rubocop
+    - shell:
+        command: bundle exec rake spec
+    - shell:
+        command: bundle exec rake rubocop
   packaged:
-    - gem_built: nanoc.gemspec
+    - gem_built:
+        name: released
+        version: env!VERSION
   published:
     - gem_pushed:
-        gem_name: nanoc
-        authorization: 78f3014a224dfa0cb66a4d60f33f77eada6eb89f
+        name: released
+        version: env!VERSION
+        authorization: |
+          -----BEGIN PGP MESSAGE-----
+          Comment: GPGTools - http://gpgtools.org
+
+          hQIMA2z0x64EwZScAQ/9E4WVht6M/KHgJ0JwGUn77/s7zexsHtc6jUhd0PGHJtTp
+          KI/0pnFuKketcoZ2MVGhoKO4zMj7oUgcMk9ajKYe+CtxntWoCVqSKFtuAPD7Sa59
+          vcDLMnznNHpF3X6lRoCaRZ9uJYKaxR+HkrKjs8IquX2fr1rmTUy2POQvqZiz8kur
+          uYJNT2rV83dVxnnf5Xxi+39XGpHznDYC7Jz0cETTjj69xq8HqLaXG2DMaYGfZQMX
+          laL/vABwy63jzpDyp3IUNYEhol9GNJT02kvZLf851LtG7WUif5mH/Yh7jYbDMMbE
+          L0bwZ6rwF483QLnrcBQmjVVokRZmgwVZ2aj4FrE9rPPcRP5En4xqnyAoNECqJEIw
+          a95f92xOoKhuANo5pFWLkV4sOw5wbY35yY3+URAaXc0xSsfpMi7zDkcMGBI0heZn
+          pzFb9rGBOA0k+nLwAS8cIEqVWPmUMUkKaKR2vnJdqMS3we9q8wEwaDY6LyrXZOv9
+          4CgqmGAJAGlODzEzJ3HiW3eP24/8A/s9dpA665/gL497Mt+y2M998hZg6KOVHCVV
+          j3JF1h+hY8f/aE/Z1A8rHwh2fSrbBkoJlG+YqqFgstcgVeHPToI+Cqnv4z9MZLxR
+          9USzTsS5aIagiNfKIuugaieGpwphIwy5P3GNRSFpew3yldm47rPAqJi9kgscHrDS
+          WwHkjnLwffytKqAeUyQjXdZMvWtd3KN/bdc4n/mSeu+C7MdQzP9SJI9psTlFkpFk
+          4kQZyb0WGIdRH5Rs3KFQ2UaNl+feNi18QFz6vLKamUGuX58OwkvX5TzvnFQ=
+          =RMIv
+          -----END PGP MESSAGE-----
 ```
 
 Example output:
 
 ```
-% bundle exec bin/released nanoc.yaml
+% released nanoc.yaml
 ```
 
 ```
@@ -31,17 +54,17 @@ Example output:
 tested:
 packaged:
 published:
-  gem pushed (nanoc)… ok
+  gem pushed (released)… ok
 
 *** Achieving goals…
 
 tested:
-  shell (bundle exec rake spec)… ok
-  shell (bundle exec rake rubocop)… ok
+  shell (bundle exec rake spec)… ok (newly achieved)
+  shell (bundle exec rake rubocop)… ok (newly achieved)
 packaged:
-  gem built (nanoc.gemspec)… ok
+  gem built (released)… ok (newly achieved)
 published:
-  gem pushed (nanoc)… ok
+  gem pushed (released)… ok (already achieved)
 
 Finished! :)
 ```
