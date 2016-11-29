@@ -4,7 +4,7 @@ require 'released'
 require 'yaml'
 
 if ARGV.size != 1
-  $stderr.puts "usage: #{$0} [filename]"
+  $stderr.puts "usage: #{$PROGRAM_NAME} [filename]"
   exit 1
 end
 

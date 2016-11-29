@@ -20,7 +20,7 @@ module Released
       print "  #{goal}… "
     end
 
-    def assessing_goal_ended(goal)
+    def assessing_goal_ended(_goal)
       puts 'ok'
     end
 
@@ -45,7 +45,7 @@ module Released
       print "  #{goal}… "
     end
 
-    def achieving_goal_ended_not_effectful(goal)
+    def achieving_goal_ended_not_effectful(_goal)
       puts format_success_new('ok')
     end
 
@@ -54,11 +54,11 @@ module Released
       puts "    reason: #{goal.failure_reason}"
     end
 
-    def achieving_goal_ended_already_achieved(goal)
+    def achieving_goal_ended_already_achieved(_goal)
       puts format_success_old('ok (already achieved)')
     end
 
-    def achieving_goal_ended_newly_achieved(goal)
+    def achieving_goal_ended_newly_achieved(_goal)
       puts format_success_new('ok (newly achieved)')
     end
 
@@ -76,12 +76,12 @@ module Released
 
     private
 
-    ORANGE       = "\e[38;5;208m"
-    RED          = "\e[38;5;196m"
-    DARK_GREEN   = "\e[38;5;28m"
-    BRIGHT_GREEN = "\e[38;5;40m"
-    BLUE         = "\e[38;5;27m"
-    RESET        = "\e[0m"
+    ORANGE       = "\e[38;5;208m".freeze
+    RED          = "\e[38;5;196m".freeze
+    DARK_GREEN   = "\e[38;5;28m".freeze
+    BRIGHT_GREEN = "\e[38;5;40m".freeze
+    BLUE         = "\e[38;5;27m".freeze
+    RESET        = "\e[0m".freeze
 
     def format_stage(s)
       BLUE + s + RESET

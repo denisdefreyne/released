@@ -22,7 +22,7 @@ module Released
         elsif File.read(@filename) != @contents
           "file `#{@filename}` does not have the expected contents"
         else
-          "unknown reason"
+          'unknown reason'
         end
       end
     end

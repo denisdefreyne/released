@@ -59,7 +59,7 @@ module Released
     def transform_string(string)
       case string
       when /\Aenv!(.*)/
-        ENV.fetch($1)
+        ENV.fetch(Regexp.last_match(1))
       when /\A-----BEGIN PGP MESSAGE-----/
         decrypt(string)
       else

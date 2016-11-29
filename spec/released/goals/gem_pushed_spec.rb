@@ -36,7 +36,8 @@ describe Released::Goals::GemPushed do
 
       it 'raises' do
         expect { subject }.to raise_error(
-          RuntimeError, 'Authorization failed')
+          RuntimeError, 'Authorization failed'
+        )
       end
     end
 
@@ -48,7 +49,8 @@ describe Released::Goals::GemPushed do
 
         it 'raises' do
           expect { subject }.to raise_error(
-            RuntimeError, 'List of owned gems does not include request gem')
+            RuntimeError, 'List of owned gems does not include request gem'
+          )
         end
       end
 
