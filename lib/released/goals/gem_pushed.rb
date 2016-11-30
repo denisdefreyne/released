@@ -45,7 +45,12 @@ module Released
       end
 
       def achieved?
-        @rubygems_repo.gems.any? { |g| g['name'] == @name && g['version'] == @version }
+        gems = @rubygems_repo.gems
+        if gems =~ /Access Denied/
+          raise 'Authorization failed'
+        end
+
+        gems.any? { |g| g['name'] == @name && g['version'] == @version }
       end
 
       def failure_reason

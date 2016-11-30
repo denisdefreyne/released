@@ -81,7 +81,39 @@ describe Released::Goals::GemPushed, stdio: true do
   end
 
   describe '#achieved?' do
-    # TODO
+    subject { goal.achieved? }
+
+    context 'incorrect authorization' do
+      let(:authorization) { incorrect_authorization }
+
+      it 'raises' do
+        VCR.use_cassette('goals__gem_pushed_spec___achieved_q__incorrect_auth') do
+          expect { subject }.to raise_error(
+            RuntimeError, 'Authorization failed'
+          )
+        end
+      end
+    end
+
+    context 'correct authorization' do
+      let(:authorization) { correct_authorization }
+
+      context 'achieved' do
+        it 'is achieved' do
+          VCR.use_cassette('goals__gem_pushed_spec___achieved_q__achieved') do
+            expect(subject).to be
+          end
+        end
+      end
+
+      context 'not achieved' do
+        it 'is not achieved' do
+          VCR.use_cassette('goals__gem_pushed_spec___achieved_q__not_achieved') do
+            expect(subject).not_to be
+          end
+        end
+      end
+    end
   end
 
   describe '#try_achieve' do
