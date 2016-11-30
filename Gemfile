@@ -11,5 +11,6 @@ group :devel do
   gem 'rspec-mocks'
   gem 'rspec'
   gem 'rubocop'
+  gem 'vcr'
   gem 'webmock'
 end

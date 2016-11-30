@@ -5,109 +5,76 @@ describe Released::Goals::GemPushed, stdio: true do
 
   let(:config) do
     {
-      'name' => 'donkey',
-      'version' => '0.1',
-      'authorization' => config_authorization,
-      'rubygems_base_url' => "http://0.0.0.0:#{port}",
+      'name' => gem_name,
+      'version' => gem_version,
+      'authorization' => authorization,
+      'rubygems_base_url' => rubygems_base_url,
     }
   end
 
-  let(:config_authorization) { raise 'override me' }
+  let(:gem_name) { 'nanoc' }
+  let(:gem_version) { '4.4.2' }
+  let(:authorization) { raise 'override me' }
+  let(:rubygems_base_url) { 'https://rubygems.org' }
 
-  let(:correct_authorization) { 'r34l_s3cr3t' }
-  let(:incorrect_authorization) { 'wrong_secret' }
-
-  let(:rubygems_gems_response_body) { JSON.dump([{ name: 'nanoc' }]) }
-
-  let(:donkey_gemspec) do
-    <<~STRING
-      Gem::Specification.new do |s|
-        s.name    = 'donkey'
-        s.version = '0.1'
-
-        s.summary = 'the cutest animal'
-        s.author  = 'Denis Defreyne'
-        s.email   = 'denis.defreyne@stoneship.org'
-        s.license = 'MIT'
-
-        s.files   = []
-      end
-    STRING
-  end
-
-  let(:port) { 35_661 }
+  let(:correct_authorization) { '83f5b7b9516c4342068cc60063a75de09bdb44d3' }
+  let(:incorrect_authorization) { '66666666666666666666666666666666' }
 
   before do
-    File.write('donkey.gemspec', donkey_gemspec)
+    gemspec =
+      <<~STRING
+        Gem::Specification.new do |s|
+          s.name    = 'nanoc'
+          s.version = '4.4.2'
+
+          s.summary = 'the best thing ever'
+          s.author  = 'Denis Defreyne'
+          s.email   = 'denis.defreyne@stoneship.org'
+          s.license = 'MIT'
+
+          s.files   = []
+        end
+      STRING
+
+    File.write('donkey.gemspec', gemspec)
     system('gem', 'build', '--silent', 'donkey.gemspec')
-  end
-
-  def run_fake_gem_server_while
-    pid = fork do
-      Dir.mktmpdir('released-specs-geminabox') do |dir|
-        require 'geminabox'
-        Geminabox.data = dir
-        Rack::Handler::WEBrick.run(Geminabox::Server, Port: port)
-      end
-    end
-
-    # Wait for server to start up
-    20.times do |i|
-      begin
-        Net::HTTP.get('0.0.0.0', '/', port)
-      rescue Errno::ECONNREFUSED
-        sleep(0.1 * 1.2**i)
-        retry
-      end
-      break
-    end
-
-    yield
-  ensure
-    Process.kill('TERM', pid)
   end
 
   describe '#assess' do
     subject { goal.assess }
 
-    before do
-      stub_request(:get, "http://0.0.0.0:#{port}/api/v1/gems")
-        .with(headers: { 'Authorization' => correct_authorization })
-        .to_return(status: 200, body: rubygems_gems_response_body)
-
-      stub_request(:get, "http://0.0.0.0:#{port}/api/v1/gems")
-        .with(headers: { 'Authorization' => incorrect_authorization })
-        .to_return(status: 401, body: 'unauthorized')
-    end
-
     context 'incorrect authorization' do
-      let(:config_authorization) { incorrect_authorization }
+      let(:authorization) { incorrect_authorization }
 
       it 'raises' do
-        expect { subject }.to raise_error(
-          RuntimeError, 'Authorization failed'
-        )
+        VCR.use_cassette('goals__gem_pushed_spec__assess__incorrect_auth') do
+          expect { subject }.to raise_error(
+            RuntimeError, 'Authorization failed'
+          )
+        end
       end
     end
 
     context 'correct authorization' do
-      let(:config_authorization) { correct_authorization }
+      let(:authorization) { correct_authorization }
 
       context 'response does not include requested gem' do
-        let(:rubygems_gems_response_body) { JSON.dump([{ name: 'giraffe' }]) }
+        let(:gem_name) { 'definitely_not_nanoc' }
 
         it 'raises' do
-          expect { subject }.to raise_error(
-            RuntimeError, 'List of owned gems does not include request gem'
-          )
+          VCR.use_cassette('goals__gem_pushed_spec__assess__correct_auth_but_gem_not_present') do
+            expect { subject }.to raise_error(
+              RuntimeError, 'List of owned gems does not include request gem'
+            )
+          end
         end
       end
 
       context 'response includes requested gem' do
-        let(:rubygems_gems_response_body) { JSON.dump([{ name: 'donkey' }]) }
-
         it 'raises' do
-          expect { subject }.not_to raise_error
+          VCR.use_cassette('goals__gem_pushed_spec__assess__correct_auth_and_gem_present') do
+            expect { subject }.not_to raise_error
+          end
         end
       end
     end
@@ -120,24 +87,28 @@ describe Released::Goals::GemPushed, stdio: true do
   describe '#try_achieve' do
     subject { goal.try_achieve }
 
-    let(:config_authorization) { 'not really relevant :/' }
-
-    around do |ex|
-      WebMock.disable_net_connect!(allow_localhost: true)
-      ex.run
-      WebMock.disable_net_connect!
+    let(:rubygems_repo) do
+      Gems::Client.new(
+        key: '83f5b7b9516c4342068cc60063a75de09bdb44d3',
+        host: 'https://rubygems.org',
+      )
     end
+
+    let(:authorization) { correct_authorization }
 
     example do
-      run_fake_gem_server_while do
-        expect { subject }
-          .to change { Net::HTTP.get_response(URI.parse("http://localhost:#{port}/gems/donkey")) }
-          .from(Net::HTTPNotFound)
-          .to(Net::HTTPOK)
+      VCR.use_cassette('goals__gem_pushed_spec___try_achieve__step_a') do
+        expect(rubygems_repo.gems.any? { |g| g['name'] == 'nanoc' && g['version'] == '4.4.2' }).not_to be
+      end
+
+      VCR.use_cassette('goals__gem_pushed_spec___try_achieve__step_b') do
+        subject
+      end
+
+      VCR.use_cassette('goals__gem_pushed_spec___try_achieve__step_c') do
+        expect(rubygems_repo.gems.any? { |g| g['name'] == 'nanoc' && g['version'] == '4.4.2' }).to be
       end
     end
-
-    # TODO
   end
 
   describe '#failure_reason' do

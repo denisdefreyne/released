@@ -49,7 +49,7 @@ module Released
       puts format_success_new('ok')
     end
 
-    def achieving_goal_ended_pending(goal)
+    def achieving_goal_ended_pending(_goal)
       puts format_pending('pending')
     end
 

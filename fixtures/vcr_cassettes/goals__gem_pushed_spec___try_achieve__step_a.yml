@@ -1,0 +1,88 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://rubygems.org/api/v1/gems.yaml
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Gems 0.8.3
+      - Ruby
+      Authorization:
+      - 83f5b7b9516c4342068cc60063a75de09bdb44d3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/yaml
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Content-Disposition:
+      - attachment
+      Content-Transfer-Encoding:
+      - binary
+      Cache-Control:
+      - private
+      Set-Cookie:
+      - remember_token=5ff8d9dc75cd49060864c2ed5c89781df1c6abdf; path=/; expires=Thu,
+        30 Nov 2017 20:28:59 -0000; secure
+      - remember_token=5ff8d9dc75cd49060864c2ed5c89781df1c6abdf; path=/; secure
+      X-Request-Id:
+      - 2aca0726-94a6-4e5f-baab-8d714d8856e4
+      X-Runtime:
+      - '0.159486'
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
+      X-Backend:
+      - F_Rails 54.186.104.15:443
+      Transfer-Encoding:
+      - chunked
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Wed, 30 Nov 2016 20:28:59 GMT
+      Via:
+      - 1.1 varnish
+      Age:
+      - '0'
+      Connection:
+      - keep-alive
+      X-Served-By:
+      - cache-ams4127-AMS
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1480537739.650601,VS0,VE317
+      Vary:
+      - Accept-Encoding,Fastly-SSL
+      Etag:
+      - '"117f5834733d2ff99cded0a9372967f4"'
+      Server:
+      - RubyGems.org
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        LS0tIFtdCg==\n
+    http_version:
+  recorded_at: Wed, 30 Nov 2016 20:28:59 GMT
+recorded_with: VCR 3.0.3

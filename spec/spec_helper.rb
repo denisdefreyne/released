@@ -1,7 +1,13 @@
 require 'released'
 
 require 'webmock/rspec'
+require 'vcr'
 require 'rspec/its'
+
+VCR.configure do |config|
+  config.cassette_library_dir = 'fixtures/vcr_cassettes'
+  config.hook_into :webmock
+end
 
 RSpec.configure do |c|
   c.around(:each, stdio: true) do |example|

@@ -1,3 +1,5 @@
+require 'gems'
+
 module Released
   module Goals
     class GemPushed < Released::Goal
@@ -10,9 +12,9 @@ module Released
         @name = config.fetch('name')
         @version = config.fetch('version')
 
-        @rubygems_repo = Released::Repos::RubyGems.new(
-          authorization: config.fetch('authorization'),
-          base_url: config.fetch('rubygems_base_url', BASE_URL),
+        @rubygems_repo = Gems::Client.new(
+          key: config.fetch('authorization'),
+          host: config.fetch('rubygems_base_url', BASE_URL),
         )
       end
 
@@ -21,7 +23,12 @@ module Released
       end
 
       def assess
-        unless @rubygems_repo.owned_gems.map(&:name).include?(@name)
+        gems = @rubygems_repo.gems
+        if gems =~ /Access Denied/
+          raise 'Authorization failed'
+        end
+
+        unless gems.any? { |g| g['name'] == @name }
           raise 'List of owned gems does not include request gem'
         end
       end
@@ -32,11 +39,13 @@ module Released
           raise "no such gem file: #{filename}"
         end
 
-        @rubygems_repo.push_gem(filename)
+        File.open(filename, 'r') do |io|
+          @rubygems_repo.push(io)
+        end
       end
 
       def achieved?
-        @rubygems_repo.owned_gems.any? { |g| g.name == @name && g.version == @version }
+        @rubygems_repo.gems.any? { |g| g['name'] == @name && g['version'] == @version }
       end
 
       def failure_reason
