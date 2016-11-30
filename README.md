@@ -139,6 +139,19 @@ Strings in `pipeline.yaml` will be replaced according the following rules:
 
 * Strings starting with `-----BEGIN PGP MESSAGE-----` will be replaced with their content passed through `gpg --decrypt`.
 
+## Goals
+
+_Released_ has the following goals:
+
+| Name                    | Status          |
+| ----------------------- | --------------- |
+| `gem_built`             | finished        |
+| `gem_pushed`            | in development  |
+| `git_tag_exists`        | pending         |
+| `git_tag_pushed`        | pending         |
+| `github_release_exists` | in development  |
+| `tweet_sent`            | pending         |
+
 ## Defining custom goal types
 
 To define a custom goal type, subclass `Released::Goal` and give it an identifier:
