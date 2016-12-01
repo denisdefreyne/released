@@ -15,7 +15,7 @@ module Released
 
     def assess_all
       @ui.assessing_started
-      goals.each do |goal|
+      @goals.each do |goal|
         next unless goal.assessable?
 
         @ui.assessing_goal_started(goal)
@@ -34,7 +34,7 @@ module Released
 
     def try_achieve_all
       @ui.achieving_started
-      goals.each do |goal|
+      @goals.each do |goal|
         @ui.achieving_goal_started(goal)
 
         if @dry_run
