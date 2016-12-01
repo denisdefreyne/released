@@ -5,9 +5,7 @@ module Released
     class GemPushed < Released::Goal
       identifier :gem_pushed
 
-      # FIXME: use actual base URL
-      BASE_URL = 'http://0.0.0.0:9292'.freeze
-      # BASE_URL = 'https://rubygems.org'.freeze
+      BASE_URL = 'https://rubygems.org'.freeze
 
       def initialize(config = {})
         @name = config.fetch('name')
