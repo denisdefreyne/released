@@ -1,6 +1,10 @@
 # Released
 
-Released is an experimental release pipeline tool. It is a possible implementation of [Nanoc RFC 8](https://github.com/nanoc/rfcs/pull/8).
+Released is a release pipeline tool. It is a possible implementation of [Nanoc RFC 8](https://github.com/nanoc/rfcs/pull/8).
+
+## Status
+
+_Released_ is experimental. It lacks features and is not stable. To track development, take a look at the [GitHub projects for Released](https://github.com/ddfreyne/released/projects).
 
 ## Example
 
@@ -110,20 +114,6 @@ Strings in `pipeline.yaml` will be replaced according the following rules:
 * Strings starting with `sh!` will be replaced with the output of the shell command following the exclamation mark. For example, `version: sh!echo -n 0.1.2` will become `version: 0.1.2`.
 
 * Strings starting with `-----BEGIN PGP MESSAGE-----` will be replaced with their content passed through `gpg --decrypt`.
-
-## Goals
-
-_Released_ has the following goals:
-
-| Name                    | Status          |
-| ----------------------- | --------------- |
-| `gem_built`             | finished        |
-| `gem_pushed`            | in development  |
-| `git_ref_pushed`        | finished        |
-| `git_tag_exists`        | pending         |
-| `git_tag_pushed`        | pending         |
-| `github_release_exists` | in development  |
-| `tweet_sent`            | pending         |
 
 ## Defining custom goal types
 
