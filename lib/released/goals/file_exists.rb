@@ -8,6 +8,10 @@ module Released
         @contents = config.fetch('contents')
       end
 
+      def to_s
+        "file exists (#{@filename})"
+      end
+
       def try_achieve
         File.write(@filename, @contents)
       end

@@ -11,6 +11,10 @@ module Released
         @release_notes = config.fetch('release_notes')
       end
 
+      def to_s
+        "GitHub release exists (#{@tag} in #{@repository_name})"
+      end
+
       def try_achieve
         client = Octokit::Client.new(netrc: true)
         client.create_release(
