@@ -55,6 +55,10 @@ module Released
     private
 
     def print_goals
+      # Create space
+      @goals.each { puts }
+      @tui.move_up(@goals.size)
+
       @goals.each do |goal|
         left.times { $stdout << '. ' }
 
