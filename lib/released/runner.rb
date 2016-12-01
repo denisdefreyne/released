@@ -56,7 +56,17 @@ module Released
 
     def print_goals
       @goals.each do |goal|
-        puts goal
+        left.times { $stdout << '. ' }
+
+        @tui.move_to_left
+        $stdout << goal
+        $stdout << ' '
+
+        @tui.move_to_left(left - 1)
+        $stdout << ' '
+
+        @tui.move_to_left
+        @tui.move_down(1)
       end
     end
 
@@ -90,12 +100,12 @@ module Released
       print_goals
 
       @goals.each.with_index do |_, idx|
-        write_state(idx, left, 'assessment pending')
+        write_state(idx, left, 'waiting')
       end
 
       @goals.each.with_index do |goal, idx|
         if goal.assessable?
-          write_state(idx, left, 'assessing…')
+          write_state(idx, left, 'working…')
 
           begin
             goal.assess
