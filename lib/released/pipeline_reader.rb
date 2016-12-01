@@ -7,22 +7,17 @@ module Released
     def read
       yaml = transform(YAML.load_file(@filename))
 
-      stages = []
+      goals = []
 
-      yaml['stages'].each_pair do |stage_name, stage_yaml|
-        goals = []
-        stage_yaml.each do |goal_yaml|
-          name = goal_yaml.keys.first
-          config = goal_yaml[name]
-          # TODO: what if there are more?
+      yaml['goals'].each do |goal_yaml|
+        name = goal_yaml.keys.first
+        config = goal_yaml[name]
+        # TODO: what if there are more?
 
-          goals << Released::Goal.named(name.to_sym).new(config)
-        end
-
-        stages << Released::Stage.new(stage_name, goals)
+        goals << Released::Goal.named(name.to_sym).new(config)
       end
 
-      stages
+      goals
     end
 
     private

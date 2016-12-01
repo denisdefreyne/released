@@ -12,5 +12,5 @@ end
 
 dry_run = opts.include?('--dry-run')
 
-stages = Released::PipelineReader.new(args[0]).read
-Released::Runner.new(stages, dry_run: dry_run).run
+goals = Released::PipelineReader.new(args[0]).read
+Released::Runner.new(goals, dry_run: dry_run).run

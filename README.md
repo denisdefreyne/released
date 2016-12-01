@@ -7,39 +7,36 @@ Released is an experimental release pipeline tool. It is a possible implementati
 Example pipeline:
 
 ```yaml
-stages:
-  tested:
-    - shell:
-        command: bundle exec rake spec
-    - shell:
-        command: bundle exec rake rubocop
-  packaged:
-    - gem_built:
-        name: released
-        version: env!VERSION
-  published:
-    - gem_pushed:
-        name: released
-        version: env!VERSION
-        authorization: |
-          -----BEGIN PGP MESSAGE-----
-          Comment: GPGTools - http://gpgtools.org
+goals:
+  - shell:
+      command: bundle exec rake spec
+  - shell:
+      command: bundle exec rake rubocop
+  - gem_built:
+      name: released
+      version: env!VERSION
+  - gem_pushed:
+      name: released
+      version: env!VERSION
+      authorization: |
+        -----BEGIN PGP MESSAGE-----
+        Comment: GPGTools - http://gpgtools.org
 
-          hQIMA2z0x64EwZScAQ/9E4WVht6M/KHgJ0JwGUn77/s7zexsHtc6jUhd0PGHJtTp
-          KI/0pnFuKketcoZ2MVGhoKO4zMj7oUgcMk9ajKYe+CtxntWoCVqSKFtuAPD7Sa59
-          vcDLMnznNHpF3X6lRoCaRZ9uJYKaxR+HkrKjs8IquX2fr1rmTUy2POQvqZiz8kur
-          uYJNT2rV83dVxnnf5Xxi+39XGpHznDYC7Jz0cETTjj69xq8HqLaXG2DMaYGfZQMX
-          laL/vABwy63jzpDyp3IUNYEhol9GNJT02kvZLf851LtG7WUif5mH/Yh7jYbDMMbE
-          L0bwZ6rwF483QLnrcBQmjVVokRZmgwVZ2aj4FrE9rPPcRP5En4xqnyAoNECqJEIw
-          a95f92xOoKhuANo5pFWLkV4sOw5wbY35yY3+URAaXc0xSsfpMi7zDkcMGBI0heZn
-          pzFb9rGBOA0k+nLwAS8cIEqVWPmUMUkKaKR2vnJdqMS3we9q8wEwaDY6LyrXZOv9
-          4CgqmGAJAGlODzEzJ3HiW3eP24/8A/s9dpA665/gL497Mt+y2M998hZg6KOVHCVV
-          j3JF1h+hY8f/aE/Z1A8rHwh2fSrbBkoJlG+YqqFgstcgVeHPToI+Cqnv4z9MZLxR
-          9USzTsS5aIagiNfKIuugaieGpwphIwy5P3GNRSFpew3yldm47rPAqJi9kgscHrDS
-          WwHkjnLwffytKqAeUyQjXdZMvWtd3KN/bdc4n/mSeu+C7MdQzP9SJI9psTlFkpFk
-          4kQZyb0WGIdRH5Rs3KFQ2UaNl+feNi18QFz6vLKamUGuX58OwkvX5TzvnFQ=
-          =RMIv
-          -----END PGP MESSAGE-----
+        hQIMA2z0x64EwZScAQ/9E4WVht6M/KHgJ0JwGUn77/s7zexsHtc6jUhd0PGHJtTp
+        KI/0pnFuKketcoZ2MVGhoKO4zMj7oUgcMk9ajKYe+CtxntWoCVqSKFtuAPD7Sa59
+        vcDLMnznNHpF3X6lRoCaRZ9uJYKaxR+HkrKjs8IquX2fr1rmTUy2POQvqZiz8kur
+        uYJNT2rV83dVxnnf5Xxi+39XGpHznDYC7Jz0cETTjj69xq8HqLaXG2DMaYGfZQMX
+        laL/vABwy63jzpDyp3IUNYEhol9GNJT02kvZLf851LtG7WUif5mH/Yh7jYbDMMbE
+        L0bwZ6rwF483QLnrcBQmjVVokRZmgwVZ2aj4FrE9rPPcRP5En4xqnyAoNECqJEIw
+        a95f92xOoKhuANo5pFWLkV4sOw5wbY35yY3+URAaXc0xSsfpMi7zDkcMGBI0heZn
+        pzFb9rGBOA0k+nLwAS8cIEqVWPmUMUkKaKR2vnJdqMS3we9q8wEwaDY6LyrXZOv9
+        4CgqmGAJAGlODzEzJ3HiW3eP24/8A/s9dpA665/gL497Mt+y2M998hZg6KOVHCVV
+        j3JF1h+hY8f/aE/Z1A8rHwh2fSrbBkoJlG+YqqFgstcgVeHPToI+Cqnv4z9MZLxR
+        9USzTsS5aIagiNfKIuugaieGpwphIwy5P3GNRSFpew3yldm47rPAqJi9kgscHrDS
+        WwHkjnLwffytKqAeUyQjXdZMvWtd3KN/bdc4n/mSeu+C7MdQzP9SJI9psTlFkpFk
+        4kQZyb0WGIdRH5Rs3KFQ2UaNl+feNi18QFz6vLKamUGuX58OwkvX5TzvnFQ=
+        =RMIv
+        -----END PGP MESSAGE-----
 ```
 
 Example output:
@@ -51,20 +48,14 @@ Example output:
 ```
 *** Assessing goals…
 
-tested:
-packaged:
-published:
-  gem pushed (released)… ok
+gem pushed (released)… ok
 
 *** Achieving goals…
 
-tested:
-  shell (bundle exec rake spec)… ok (newly achieved)
-  shell (bundle exec rake rubocop)… ok (newly achieved)
-packaged:
-  gem built (released)… ok (newly achieved)
-published:
-  gem pushed (released)… ok (already achieved)
+shell (bundle exec rake spec)… ok (newly achieved)
+shell (bundle exec rake rubocop)… ok (newly achieved)
+gem built (released)… ok (newly achieved)
+gem pushed (released)… ok (already achieved)
 
 Finished! :)
 ```
@@ -84,7 +75,6 @@ _Released_’s philosophy is threefold:
 _Released_ has the following concepts:
 
 * pipeline
-* stage
 * goal
 
 The sections below elaborate on these concepts.
@@ -107,27 +97,9 @@ _Released_ will take the necessary steps to achieve a given goal, but no more th
 
 TODO: figure out difference between temporary/retriable failures (GitHub is down) and permanent/non-retriable ones (tests are failing)
 
-### Stage
-
-A stage consists of one or more goals. A stage is completed when each of the individual goals inside that stage are achieved.
-
-For example:
-
-* `tested`
-  * `tests_passing`: the tests are passing
-  * `style_checked`: the style checks are passing
-* `built`:
-  * `pkg_built`: the Debian package is built
-  * `gem_built`: the RubyGem is built
-* `published`:
-  * `pkg_published`: the Debian package is published
-  * `gem_published`: the RubyGem is published
-
-The goals inside a stage can be executed in parallel or in any order.
-
 ### Pipeline
 
-A pipeline is a sequence of stages. Each stage will be executed in sequence, and a stage will only be executed if no goals in the previous stage have failed.
+A pipeline is a sequence of goals. Each goal will be executed in sequence, and a goal will only be executed if no previous goals have failed.
 
 ## Pipeline file
 

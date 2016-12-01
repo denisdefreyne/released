@@ -12,7 +12,6 @@ require 'nanoc'
 
 require_relative 'released/version'
 require_relative 'released/goal'
-require_relative 'released/stage'
 require_relative 'released/runner'
 require_relative 'released/runner_ui'
 require_relative 'released/pipeline_reader'

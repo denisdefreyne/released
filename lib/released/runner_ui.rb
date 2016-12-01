@@ -9,15 +9,8 @@ module Released
       puts
     end
 
-    def assessing_stage_started(stage)
-      puts "#{format_stage(stage.name)}:"
-    end
-
-    def assessing_stage_ended(stage)
-    end
-
     def assessing_goal_started(goal)
-      print "  #{goal}… "
+      print "#{goal}… "
     end
 
     def assessing_goal_ended(_goal)
@@ -34,15 +27,8 @@ module Released
       puts 'Finished! :)'
     end
 
-    def achieving_stage_started(stage)
-      puts "#{format_stage(stage.name)}:"
-    end
-
-    def achieving_stage_ended(stage)
-    end
-
     def achieving_goal_started(goal)
-      print "  #{goal}… "
+      print "#{goal}… "
     end
 
     def achieving_goal_ended_not_effectful(_goal)
@@ -55,7 +41,7 @@ module Released
 
     def achieving_goal_ended_not_achieved(goal)
       puts format_failure('failed')
-      puts "    reason: #{goal.failure_reason}"
+      puts "  reason: #{goal.failure_reason}"
     end
 
     def achieving_goal_ended_already_achieved(_goal)
@@ -87,10 +73,6 @@ module Released
     BLUE         = "\e[38;5;27m".freeze
     YELLOW       = "\e[38;5;220m".freeze
     RESET        = "\e[0m".freeze
-
-    def format_stage(s)
-      BLUE + s + RESET
-    end
 
     def format_success_old(s)
       DARK_GREEN + s + RESET
