@@ -16,6 +16,10 @@ module Released
         false
       end
 
+      def assess
+        sleep 1
+      end
+
       def try_achieve
         stdout = ''
         stderr = ''

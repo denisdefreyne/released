@@ -1,75 +1,151 @@
 module Released
   class Runner
-    def initialize(goals, dry_run: false, ui: Released::RunnerUI.new)
+    # FIXME: extract UI
+
+    class TUI
+      def initialize(io)
+        @io = io
+      end
+
+      def move_up(num)
+        @io <<
+          if num == 1
+            "\e[A"
+          else
+            "\e[#{num}A"
+          end
+      end
+
+      def move_down(num)
+        @io <<
+          if num == 1
+            "\e[B"
+          else
+            "\e[#{num}B"
+          end
+      end
+
+      def move_to_left(col = 1)
+        @io <<
+          if col == 1
+            "\e[G"
+          else
+            "\e[#{col}G"
+          end
+      end
+
+      def clear_to_end_of_line
+        @io << "\e[K"
+      end
+    end
+
+    def initialize(goals, dry_run: false)
       @goals = goals
       @dry_run = dry_run
-      @ui = ui
+
+      @tui = TUI.new($stdout)
+      @tui_mutex = Mutex.new
     end
 
     def run
+      @goals.each do |goal|
+        puts goal
+      end
+
       assess_all
       try_achieve_all
     end
 
     private
 
+    def handle_error(e)
+      puts
+      puts 'FAILURE!'
+      puts '-----'
+      puts e.message
+      puts
+      puts e.backtrace.join("\n")
+      puts '-----'
+      puts 'Aborting!'
+    end
+
+    def write_state(idx, left, state)
+      up = @goals.size - idx
+      @tui.move_up(up)
+      @tui.move_to_left(left)
+      $stdout << state
+      @tui.clear_to_end_of_line
+      @tui.move_to_left
+      @tui.move_down(up)
+    end
+
+    def left
+      @_left ||= @goals.map { |g| g.to_s.size }.max + 5
+    end
+
     def assess_all
-      @ui.assessing_started
-      @goals.each do |goal|
-        next unless goal.assessable?
-
-        @ui.assessing_goal_started(goal)
-
-        begin
-          goal.assess
-        rescue => e
-          @ui.errored(e)
-          exit 1 # FIXME: eww
-        end
-
-        @ui.assessing_goal_ended(goal)
+      @goals.each.with_index do |_, idx|
+        write_state(idx, left, 'assessment pending')
       end
-      @ui.assessing_ended
+
+      @goals.each.with_index do |goal, idx|
+        if goal.assessable?
+          write_state(idx, left, 'assessing…')
+
+          begin
+            goal.assess
+            write_state(idx, left, 'assessed (ok)')
+          rescue => e
+            write_state(idx, left, 'assessment failed')
+            handle_error(e)
+            exit 1 # FIXME: eww
+          end
+        else
+          write_state(idx, left, 'assessment skipped')
+        end
+      end
     end
 
     def try_achieve_all
-      @ui.achieving_started
-      @goals.each do |goal|
-        @ui.achieving_goal_started(goal)
+      @goals.each.with_index do |_, idx|
+        write_state(idx, left, 'pending')
+      end
 
+      @goals.each.with_index do |goal, idx|
         if @dry_run
           if goal.achieved?
-            @ui.achieving_goal_ended_already_achieved(goal)
+            write_state(idx, left, 'already achieved')
           else
-            @ui.achieving_goal_ended_pending(goal)
+            write_state(idx, left, 'not yet achieved')
           end
           next
         end
 
         if goal.achieved?
-          @ui.achieving_goal_ended_already_achieved(goal)
+          write_state(idx, left, 'already achieved')
           next
         end
 
         begin
+          write_state(idx, left, 'working…')
           goal.try_achieve
         rescue => e
-          @ui.errored(e)
+          write_state(idx, left, 'errored')
+          handle_error(e)
           exit 1 # FIXME: eww
         end
 
         if !goal.effectful?
-          @ui.achieving_goal_ended_not_effectful(goal)
+          write_state(idx, left, 'passed')
           next
         elsif goal.achieved?
-          @ui.achieving_goal_ended_newly_achieved(goal)
+          write_state(idx, left, 'newly achieved')
           next
         else
-          @ui.achieving_goal_ended_not_achieved(goal)
+          write_state(idx, left, 'not achieved')
           exit 1 # FIXME: eww
         end
       end
-      @ui.achieving_ended
     end
   end
 end
