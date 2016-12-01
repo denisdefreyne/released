@@ -53,7 +53,7 @@ module Released
       end
 
       def failure_reason
-        "expected list of gems to contain “#{@name}”, version #{@version}"
+        "list of gems does not contain “#{@name}”, version #{@version}"
       end
     end
   end

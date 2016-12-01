@@ -33,7 +33,7 @@ module Released
       end
 
       def failure_reason
-        "expected the file #{expected_name} to exist"
+        "file #{expected_name} does not exist"
       end
 
       private

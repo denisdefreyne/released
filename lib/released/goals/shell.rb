@@ -35,6 +35,10 @@ module Released
       def achieved?
         false
       end
+
+      def failure_reason
+        'command not executed'
+      end
     end
   end
 end

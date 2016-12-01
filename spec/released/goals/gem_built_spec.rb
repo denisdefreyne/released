@@ -59,6 +59,6 @@ describe Released::Goals::GemBuilt do
 
   describe '#failure_reason' do
     subject { goal.failure_reason }
-    it { is_expected.to eql('expected the file donkey-0.1.gem to exist') }
+    it { is_expected.to eql('file donkey-0.1.gem does not exist') }
   end
 end

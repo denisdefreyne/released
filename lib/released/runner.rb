@@ -136,7 +136,7 @@ module Released
           if goal.achieved?
             write_state(idx, left, 'ok (already achieved)')
           else
-            write_state(idx, left, 'pending')
+            write_state(idx, left, 'pending: ' + goal.failure_reason)
           end
           next
         end
