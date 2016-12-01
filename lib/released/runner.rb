@@ -162,7 +162,9 @@ module Released
           write_state(idx, left, 'ok (newly achieved)')
           next
         else
-          write_state(idx, left, 'failed')
+          write_state(idx, left, 'failed: ' + goal.failure_reason)
+          puts
+          puts 'Failed!'
           exit 1 # FIXME: eww
         end
       end
