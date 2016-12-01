@@ -38,6 +38,19 @@ describe Released::Goals::GitRefPushed do
       it { is_expected.not_to be }
     end
 
+    context 'pushed, but not right rev' do
+      before do
+        goal.try_achieve
+
+        local.chdir { File.write('bye.txt', 'bye now') }
+        local.add('bye.txt')
+        local.commit('Add farewell')
+        local.branch('devel').checkout
+      end
+
+      it { is_expected.not_to be }
+    end
+
     context 'pushed' do
       before { goal.try_achieve }
       it { is_expected.to be }
