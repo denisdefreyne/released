@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
 
   # Dependencies for goals
   # TODO: Move into plugins
+  s.add_runtime_dependency('git')
   s.add_runtime_dependency('twitter')
   s.add_runtime_dependency('gems')
   s.add_runtime_dependency('netrc')

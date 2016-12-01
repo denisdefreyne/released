@@ -147,6 +147,7 @@ _Released_ has the following goals:
 | ----------------------- | --------------- |
 | `gem_built`             | finished        |
 | `gem_pushed`            | in development  |
+| `git_ref_pushed`        | finished        |
 | `git_tag_exists`        | pending         |
 | `git_tag_pushed`        | pending         |
 | `github_release_exists` | in development  |
