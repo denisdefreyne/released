@@ -144,6 +144,10 @@ describe Released::Goals::GemPushed, stdio: true do
   end
 
   describe '#failure_reason' do
-    # TODO
+    subject { goal.failure_reason }
+
+    let(:authorization) { incorrect_authorization } # irrelevant
+
+    it { is_expected.to eql('expected list of gems to contain “nanoc”, version 4.4.2') }
   end
 end
