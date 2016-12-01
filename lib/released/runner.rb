@@ -48,15 +48,17 @@ module Released
     end
 
     def run
-      @goals.each do |goal|
-        puts goal
-      end
-
       assess_all
       try_achieve_all
     end
 
     private
+
+    def print_goals
+      @goals.each do |goal|
+        puts goal
+      end
+    end
 
     def handle_error(e)
       puts
@@ -84,6 +86,9 @@ module Released
     end
 
     def assess_all
+      puts 'Assessing goals…'
+      print_goals
+
       @goals.each.with_index do |_, idx|
         write_state(idx, left, 'assessment pending')
       end
@@ -94,35 +99,40 @@ module Released
 
           begin
             goal.assess
-            write_state(idx, left, 'assessed (ok)')
+            write_state(idx, left, 'ok (succeeded)')
           rescue => e
-            write_state(idx, left, 'assessment failed')
+            write_state(idx, left, 'failed')
             handle_error(e)
             exit 1 # FIXME: eww
           end
         else
-          write_state(idx, left, 'assessment skipped')
+          write_state(idx, left, 'ok (skipped)')
         end
       end
+
+      puts
     end
 
     def try_achieve_all
+      puts 'Achieving goals…'
+      print_goals
+
       @goals.each.with_index do |_, idx|
-        write_state(idx, left, 'pending')
+        write_state(idx, left, 'waiting')
       end
 
       @goals.each.with_index do |goal, idx|
         if @dry_run
           if goal.achieved?
-            write_state(idx, left, 'already achieved')
+            write_state(idx, left, 'ok (already achieved)')
           else
-            write_state(idx, left, 'not yet achieved')
+            write_state(idx, left, 'pending')
           end
           next
         end
 
         if goal.achieved?
-          write_state(idx, left, 'already achieved')
+          write_state(idx, left, 'ok (already achieved)')
           next
         end
 
@@ -136,13 +146,13 @@ module Released
         end
 
         if !goal.effectful?
-          write_state(idx, left, 'passed')
+          write_state(idx, left, 'ok (passed)')
           next
         elsif goal.achieved?
-          write_state(idx, left, 'newly achieved')
+          write_state(idx, left, 'ok (newly achieved)')
           next
         else
-          write_state(idx, left, 'not achieved')
+          write_state(idx, left, 'failed')
           exit 1 # FIXME: eww
         end
       end
