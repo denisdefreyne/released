@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
 
   s.files =
     Dir['[A-Z]*'] +
-    Dir['{lib,spec}/**/*'] +
+    Dir['{bin,lib,spec}/**/*'] +
     Dir['*.gemspec']
   s.require_paths      = ['lib']
 
