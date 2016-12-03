@@ -11,6 +11,10 @@ module Released
         @ref = config.fetch('ref')
       end
 
+      def to_s
+        "Git ref pushed (#{@remote}/#{@ref})"
+      end
+
       def try_achieve
         g.push(@remote, @ref)
       end

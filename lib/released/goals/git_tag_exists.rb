@@ -13,6 +13,10 @@ module Released
 
       # git tag --sign --annotate 2.7.1 --message 'Version 2.7.1'
 
+      def to_s
+        "Git tag exists (#{@name}, ref #{@ref})"
+      end
+
       def try_achieve
         g.add_tag(@name, @ref)
       end
