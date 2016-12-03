@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
     Dir['[A-Z]*'] +
     Dir['{bin,lib,spec}/**/*'] +
     Dir['*.gemspec']
+  s.executables        = ['released']
   s.require_paths      = ['lib']
 
   s.rdoc_options     = ['--main', 'README.md']
