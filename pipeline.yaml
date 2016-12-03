@@ -8,10 +8,10 @@ goals:
       command: bundle exec rake rubocop
   - gem_built:
       name: released
-      version: env!VERSION
+      version: sh!ruby -r./lib/released/version -e 'print Released::VERSION'
   - gem_pushed:
       name: released
-      version: env!VERSION
+      version: sh!ruby -r./lib/released/version -e 'print Released::VERSION'
       authorization: |
         -----BEGIN PGP MESSAGE-----
         Comment: GPGTools - http://gpgtools.org
@@ -33,6 +33,6 @@ goals:
         -----END PGP MESSAGE-----
   - github_release_exists:
       repository_name: ddfreyne/sandbox
-      tag: 0.0.1
+      tag: sh!ruby -r./lib/released/version -e 'print Released::VERSION'
       release_notes: |
         Initial release.
