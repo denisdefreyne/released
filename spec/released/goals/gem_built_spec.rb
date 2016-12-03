@@ -54,6 +54,18 @@ describe Released::Goals::GemBuilt do
       it 'builds the gem' do
         expect { subject }.to change { File.file?('donkey-0.1.gem') }.from(false).to(true)
       end
+
+      context 'other gems already exist' do
+        before { File.write('foo-1.0.gem', 'stuff') }
+
+        it 'builds the gem' do
+          expect { subject }.to change { File.file?('donkey-0.1.gem') }.from(false).to(true)
+        end
+
+        it 'does not remove other gems' do
+          expect { subject }.not_to change { File.file?('foo-1.0.gem') }
+        end
+      end
     end
   end
 

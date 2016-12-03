@@ -13,9 +13,6 @@ module Released
       end
 
       def try_achieve
-        # TODO: remove
-        Dir['*.gem'].each { |f| FileUtils.rm_f(f) }
-
         stdout = ''
         stderr = ''
         piper = Nanoc::Extra::Piper.new(stdout: stdout, stderr: stderr)
