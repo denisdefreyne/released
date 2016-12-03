@@ -11,7 +11,7 @@ goals:
       version: var!version
   - git_tag_exists:
       name: var!version
-      ref: a7a7321ae80bb3ab2eda9f8b1f36e9a220131e2a
+      ref: HEAD
       working_dir: .
   - gem_pushed:
       name: released
