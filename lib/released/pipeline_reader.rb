@@ -5,7 +5,7 @@ module Released
     end
 
     def read
-      yaml = transform(YAML.load_file(@filename))
+      yaml = transform_root(YAML.load_file(@filename))
 
       goals = []
 
@@ -22,37 +22,44 @@ module Released
 
     private
 
-    def transform(obj)
+    def transform_root(obj)
+      vars = transform(obj['vars'], {})
+      { 'goals' => transform(obj['goals'], vars) }
+    end
+
+    def transform(obj, vars)
       case obj
       when Hash
-        transform_hash(obj)
+        transform_hash(obj, vars)
       when Array
-        transform_array(obj)
+        transform_array(obj, vars)
       when String
-        transform_string(obj)
+        transform_string(obj, vars)
       else
         obj
       end
     end
 
-    def transform_hash(hash)
+    def transform_hash(hash, vars)
       hash.each_with_object({}) do |(key, value), memo|
-        memo[key] = transform(value)
+        memo[key] = transform(value, vars)
       end
     end
 
-    def transform_array(array)
+    def transform_array(array, vars)
       array.map do |elem|
-        transform(elem)
+        transform(elem, vars)
       end
     end
 
-    def transform_string(string)
+    def transform_string(string, vars)
       case string
       when /\Aenv!(.*)/
         ENV.fetch(Regexp.last_match(1))
       when /\Ash!(.*)/
         `#{Regexp.last_match(1)}`
+      when /\Avar!(.*)/
+        vars[Regexp.last_match(1)]
       when /\A-----BEGIN PGP MESSAGE-----/
         decrypt(string)
       else

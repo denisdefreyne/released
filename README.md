@@ -113,7 +113,16 @@ Strings in `pipeline.yaml` will be replaced according the following rules:
 
 * Strings starting with `sh!` will be replaced with the output of the shell command following the exclamation mark. For example, `version: sh!echo -n 0.1.2` will become `version: 0.1.2`.
 
+* Strings starting with `var!` will be replaced with the value of the named variable. See below for details on how to set variables. For example, `version: var!version` will become `version: 0.1.2`, if the `version` variable is set to `0.1.2`.
+
 * Strings starting with `-----BEGIN PGP MESSAGE-----` will be replaced with their content passed through `gpg --decrypt`.
+
+The pipeline file can contain a `vars` section, which defines variables. The keys are variable names, and the value are the variable values. For example, the following defines a variable `version` with the contents of `Released::VERSION`, defined in `lib/released/version.rb`:
+
+```yaml
+vars:
+  version: sh!ruby -r./lib/released/version -e 'print Released::VERSION'
+```
 
 ## Defining custom goal types
 
