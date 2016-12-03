@@ -24,13 +24,21 @@ module Released
       end
 
       def failure_reason
-        "HEAD does not exist on #{@remote}/#{@ref}"
+        if remote_sha
+          "ref #{@ref} (#{abbr local_sha}) is not the same as #{@remote}/#{@ref} (#{abbr remote_sha})"
+        else
+          "ref #{@ref} (#{abbr local_sha}) does not exist on remote #{@remote}"
+        end
       end
 
       private
 
       def g
         @_g ||= Git.open(@working_dir)
+      end
+
+      def abbr(sha)
+        sha && sha[0..7]
       end
 
       def remote_sha
@@ -40,7 +48,7 @@ module Released
       end
 
       def local_sha
-        g.object('HEAD').sha
+        g.object(@ref).sha
       end
     end
   end

@@ -86,6 +86,22 @@ describe Released::Goals::GitRefPushed do
 
   describe '#failure_reason' do
     subject { goal.failure_reason }
-    it { is_expected.to eql('HEAD does not exist on gitlab/devel') }
+
+    context 'pushed, but not right rev' do
+      before do
+        goal.try_achieve
+
+        local.chdir { File.write('bye.txt', 'bye now') }
+        local.add('bye.txt')
+        local.commit('Add farewell')
+        local.branch('devel').checkout
+      end
+
+      it { is_expected.to match(%r{ref devel \(.{8}\) is not the same as gitlab/devel \(.{8}\)}) }
+    end
+
+    context 'not pushed' do
+      it { is_expected.to match(/ref devel \(.{8}\) does not exist on remote gitlab/) }
+    end
   end
 end
