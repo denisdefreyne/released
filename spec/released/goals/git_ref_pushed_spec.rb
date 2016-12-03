@@ -37,26 +37,55 @@ describe Released::Goals::GitRefPushed do
   describe '#achieved?' do
     subject { goal.achieved? }
 
-    context 'not pushed' do
-      it { is_expected.not_to be }
-    end
-
-    context 'pushed, but not right rev' do
-      before do
-        goal.try_achieve
-
-        local.chdir { File.write('bye.txt', 'bye now') }
-        local.add('bye.txt')
-        local.commit('Add farewell')
-        local.branch('devel').checkout
+    context 'pushing branch' do
+      context 'not pushed' do
+        it { is_expected.not_to be }
       end
 
-      it { is_expected.not_to be }
+      context 'pushed, but not right rev' do
+        before do
+          goal.try_achieve
+
+          local.chdir { File.write('bye.txt', 'bye now') }
+          local.add('bye.txt')
+          local.commit('Add farewell')
+          local.branch('devel').checkout
+        end
+
+        it { is_expected.not_to be }
+      end
+
+      context 'pushed' do
+        before { goal.try_achieve }
+        it { is_expected.to be }
+      end
     end
 
-    context 'pushed' do
-      before { goal.try_achieve }
-      it { is_expected.to be }
+    context 'pushing tag' do
+      let(:config_ref) { '1.2.4' }
+
+      context 'not pushed' do
+        it { is_expected.not_to be }
+      end
+
+      context 'pushed, but not right rev' do
+        before do
+          goal.try_achieve
+
+          local.chdir { File.write('bye.txt', 'bye now') }
+          local.add('bye.txt')
+          local.commit('Add farewell')
+          local.delete_tag('1.2.4')
+          local.add_tag('1.2.4')
+        end
+
+        it { is_expected.not_to be }
+      end
+
+      context 'pushed' do
+        before { goal.try_achieve }
+        it { is_expected.to be }
+      end
     end
   end
 

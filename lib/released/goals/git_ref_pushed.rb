@@ -42,9 +42,10 @@ module Released
       end
 
       def remote_sha
-        g.gcommit("#{@remote}/#{@ref}").sha
-      rescue
-        nil
+        remote_url = g.remote(@remote).url
+        res = Git.ls_remote(remote_url)
+        ref = res['branches'].merge(res['tags']).find { |name, _data| name == @ref }
+        ref ? ref[1][:sha] : nil
       end
 
       def local_sha
