@@ -8,7 +8,9 @@ describe Released::PipelineReader do
   end
 
   describe '#transform' do
-    subject { pipeline_reader.send(:transform, obj) }
+    subject { pipeline_reader.send(:transform, obj, vars) }
+
+    let(:vars) { {} }
 
     context 'with array' do
       let(:obj) { %w(hello env!FAVORITE_GEM_AUTHOR) }
@@ -34,6 +36,19 @@ describe Released::PipelineReader do
       context 'sh! string' do
         let(:obj) { 'sh!echo -n hello' }
         it { is_expected.to eql('hello') }
+      end
+
+      context 'var! string' do
+        let(:obj) { 'var!version' }
+
+        context 'var does not exist' do
+          # TODO
+        end
+
+        context 'var exists' do
+          let(:vars) { { 'version' => '1.2.4' } }
+          it { is_expected.to eql('1.2.4') }
+        end
       end
 
       context 'encrypted string' do
