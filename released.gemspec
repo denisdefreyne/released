@@ -30,9 +30,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency('netrc', '~> 0.11')
   s.add_runtime_dependency('octokit', '~> 4.6')
 
-  # TODO: Remove this (copy piper?)
-  s.add_runtime_dependency('nanoc', '~> 4.4')
-
   s.add_runtime_dependency('ddplugin', '~> 1.0')
 
   s.add_development_dependency('bundler', '>= 1.7.10', '< 2.0')

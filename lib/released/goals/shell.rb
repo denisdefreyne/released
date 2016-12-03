@@ -23,7 +23,7 @@ module Released
       def try_achieve
         stdout = ''
         stderr = ''
-        piper = Nanoc::Extra::Piper.new(stdout: stdout, stderr: stderr)
+        piper = Released::Piper.new(stdout: stdout, stderr: stderr)
 
         begin
           piper.run(@command, [])
