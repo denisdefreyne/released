@@ -24,11 +24,11 @@ Gem::Specification.new do |s|
 
   # Dependencies for goals
   # TODO: Move into plugins
-  s.add_runtime_dependency('git')
-  s.add_runtime_dependency('twitter')
-  s.add_runtime_dependency('gems')
-  s.add_runtime_dependency('netrc')
-  s.add_runtime_dependency('octokit')
+  s.add_runtime_dependency('git', '~> 1.3')
+  s.add_runtime_dependency('twitter', '~> 4.8')
+  s.add_runtime_dependency('gems', '~> 0.8')
+  s.add_runtime_dependency('netrc', '~> 0.11')
+  s.add_runtime_dependency('octokit', '~> 4.6')
 
   # TODO: Remove this (copy piper?)
   s.add_runtime_dependency('nanoc', '~> 4.4')
