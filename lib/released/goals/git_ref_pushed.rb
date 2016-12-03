@@ -8,31 +8,35 @@ module Released
       def initialize(config)
         @working_dir = config.fetch('working_dir')
         @remote = config.fetch('remote')
-        @branch = config.fetch('branch')
+        @ref = config.fetch('ref')
       end
 
       def try_achieve
-        g.push(@remote, @branch)
+        g.push(@remote, @ref)
       end
 
       def achieved?
-        there_branch = g.branches["#{@remote}/#{@branch}"]
-        return false if there_branch.nil?
-        there = there_branch.gcommit.sha
-
-        here = g.object('HEAD').sha
-
-        here == there
+        local_sha == remote_sha
       end
 
       def failure_reason
-        "HEAD does not exist on #{@remote}/#{@branch}"
+        "HEAD does not exist on #{@remote}/#{@ref}"
       end
 
       private
 
       def g
         @_g ||= Git.open(@working_dir)
+      end
+
+      def remote_sha
+        g.gcommit("#{@remote}/#{@ref}").sha
+      rescue
+        nil
+      end
+
+      def local_sha
+        g.object('HEAD').sha
       end
     end
   end

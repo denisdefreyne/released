@@ -7,9 +7,11 @@ describe Released::Goals::GitRefPushed do
     {
       'working_dir' => 'local',
       'remote' => 'gitlab',
-      'branch' => 'devel',
+      'ref' => config_ref,
     }
   end
+
+  let(:config_ref) { 'devel' }
 
   let!(:local) do
     Git.init('local').tap do |g|
@@ -20,6 +22,7 @@ describe Released::Goals::GitRefPushed do
       g.add('hello.txt')
       g.commit('Add greeting')
       g.branch('devel').checkout
+      g.add_tag('1.2.4')
     end
   end
 
@@ -60,10 +63,24 @@ describe Released::Goals::GitRefPushed do
   describe '#try_achieve' do
     subject { goal.try_achieve }
 
-    example do
-      expect(remote.branches['devel']).to be_nil
-      subject
-      expect(remote.branches['devel'].gcommit.sha).to eql(local.branches['devel'].gcommit.sha)
+    context 'pushing branch' do
+      let(:config_ref) { 'devel' }
+
+      example do
+        expect(remote.branches['devel']).to be_nil
+        subject
+        expect(remote.branches['devel'].gcommit.sha).to eql(local.branches['devel'].gcommit.sha)
+      end
+    end
+
+    context 'pushing tag' do
+      let(:config_ref) { '1.2.4' }
+
+      example do
+        expect(remote.tags).to be_empty
+        subject
+        expect(remote.tag('1.2.4').sha).to eql(local.tag('1.2.4').sha)
+      end
     end
   end
 
