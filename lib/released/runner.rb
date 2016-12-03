@@ -63,6 +63,7 @@ module Released
         left.times { $stdout << '. ' }
 
         @tui.move_to_left
+        $stdout << '  '
         $stdout << goal
         $stdout << ' '
 
@@ -96,7 +97,7 @@ module Released
     end
 
     def left
-      @_left ||= @goals.map { |g| g.to_s.size }.max + 5
+      @_left ||= @goals.map { |g| g.to_s.size }.max + 8
     end
 
     def assess_all
