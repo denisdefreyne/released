@@ -1,7 +1,4 @@
 goals:
-  - file_exists:
-      filename: lol.txt
-      contents: hello
   - shell:
       command: bundle exec rake spec
   - shell:
