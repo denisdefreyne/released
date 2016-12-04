@@ -1,4 +1,5 @@
 require 'git'
+require 'logger'
 
 module Released
   module Goals
@@ -9,16 +10,21 @@ module Released
         @working_dir = config.fetch('working_dir')
         @name = config.fetch('name')
         @ref = config.fetch('ref')
+        @signed = config.fetch('signed', false)
+        @annotated = config.fetch('annotated', false)
+        @message = config.fetch('message', nil)
       end
-
-      # git tag --sign --annotate 2.7.1 --message 'Version 2.7.1'
 
       def to_s
         "Git tag exists (#{@name}, ref #{@ref})"
       end
 
       def try_achieve
-        g.add_tag(@name, @ref)
+        opts = {}
+        opts[:sign] = @signed
+        opts[:annotate] = @annotated
+        opts[:message] = @message
+        g.add_tag(@name, @ref, opts)
       end
 
       def achieved?

@@ -8,8 +8,10 @@ describe Released::Goals::GitTagExists do
       'working_dir' => 'local',
       'name' => '1.3',
       'ref' => config_ref,
-    }
+    }.merge(config_extra)
   end
+
+  let(:config_extra) { {} }
 
   let(:config_ref) { 'HEAD' }
 
@@ -96,6 +98,25 @@ describe Released::Goals::GitTagExists do
         expect(created_tag).to be_nil
         subject
         expect(local.tag('1.3').sha).to eql(local.object('HEAD').sha)
+      end
+    end
+
+    # TODO: test signing
+
+    context 'annotated' do
+      let(:config_ref) { 'HEAD' }
+      let(:config_extra) { { 'annotated' => true, 'message' => 'sweet new version yo' } }
+
+      example do
+        expect(created_tag).to be_nil
+        subject
+
+        tag = local.tag('1.3')
+        expect(local.tag('1.3').sha).not_to eql(local.object('HEAD').sha)
+        expect(local.tag('1.3').contents).to match(local.object('HEAD').sha)
+        # expect(local.tag('1.3').message).to eql('sweet new version yo')
+
+        # FIXME: messag is prepended with a space… ruby-git issue?
       end
     end
   end
