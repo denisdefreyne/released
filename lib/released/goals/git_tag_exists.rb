@@ -1,5 +1,4 @@
 require 'git'
-require 'logger'
 
 module Released
   module Goals

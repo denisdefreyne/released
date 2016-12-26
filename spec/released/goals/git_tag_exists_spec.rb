@@ -111,7 +111,6 @@ describe Released::Goals::GitTagExists do
         expect(created_tag).to be_nil
         subject
 
-        tag = local.tag('1.3')
         expect(local.tag('1.3').sha).not_to eql(local.object('HEAD').sha)
         expect(local.tag('1.3').contents).to match(local.object('HEAD').sha)
         # expect(local.tag('1.3').message).to eql('sweet new version yo')
